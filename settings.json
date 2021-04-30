@@ -1,0 +1,13 @@
+{
+    "app_name": "PyOneDark - Modern GUI",
+    "custom_title_bar": true,
+    "startup_size": [
+        1200,
+        720
+    ],
+    "minimum_size": [
+        960,
+        540
+    ],
+    "theme_name": "default"
+}
