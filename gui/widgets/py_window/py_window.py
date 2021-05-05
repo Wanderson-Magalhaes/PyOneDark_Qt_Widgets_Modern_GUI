@@ -26,10 +26,30 @@ from qt_core import *
 # ///////////////////////////////////////////////////////////////
 from gui.core.json_settings import Settings
 
+# IMPORT PY GRIP
+# ///////////////////////////////////////////////////////////////
+from gui.widgets.py_grips import PyGrips
+
+# IMPORT STYLES
+# ///////////////////////////////////////////////////////////////
+from . styles import Styles
+
 # PY WINDOW
 # ///////////////////////////////////////////////////////////////
-class PyWindow(QWidget):
-    def __init__(self, parent):
+class PyWindow(QFrame):
+    def __init__(
+        self,
+        parent,
+        layout = Qt.Vertical,
+        margin = 10,
+        bg_color = "#2c313c",
+        text_color = "#fff",
+        text_font = "9pt 'Segoe UI'",
+        border_radius = 10,
+        border_size = 2,
+        border_color = "#343b48",
+        enable_shadow = True
+    ):
         super(PyWindow, self).__init__()
 
         # LOAD SETTINGS
@@ -37,20 +57,109 @@ class PyWindow(QWidget):
         settings = Settings()
         self.settings = settings.items
 
-        # APP MARGINS LAYOUT
+        # PROPERTIES
         # ///////////////////////////////////////////////////////////////
-        self.app_margins_layout = QVBoxLayout(self)
-        self.app_margins_layout.setContentsMargins(0,0,0,0)
-        self.app_margins_layout.setObjectName("app_margins_layout")
+        self.parent = parent
+        self.layout = layout
+        self.margin = margin
+        self.bg_color = bg_color
+        self.text_color = text_color
+        self.text_font = text_font
+        self.border_radius = border_radius
+        self.border_size = border_size
+        self.border_color = border_color
+        self.enable_shadow = enable_shadow
 
-        # BG APP
-        # ///////////////////////////////////////////////////////////////
-        self.bg_app = QFrame(self)
-        self.bg_app.setStyleSheet("background: #333")
-        self.bg_app.setObjectName("bg_app")
+        # OBJECT NAME
+        # ///////////////////////////////////////////////////////////////   
+        self.setObjectName("pod_bg_app")
 
-        # ADD WIDGETS TO APP MARGINS LAUOUT
+        # APPLY STYLESHEET
+        # /////////////////////////////////////////////////////////////// 
+        self.set_stylesheet()
+
+        # ADD LAYOUT
         # ///////////////////////////////////////////////////////////////
-        self.app_margins_layout.addWidget(self.bg_app)
-        
+        if layout == Qt.Vertical:
+            # VERTICAL LAYOUT
+            self.layout = QVBoxLayout(self)
+        else:
+            # HORIZONTAL LAYOUT
+            self.layout = QHBoxLayout(self)
+        self.layout.setContentsMargins(margin, margin, margin, margin)
+
+        # ADD GRIPS
+        # ///////////////////////////////////////////////////////////////
+        if self.settings["custom_title_bar"]:
+            self.left_grip = PyGrips(parent, Qt.LeftEdge)
+            self.right_grip = PyGrips(parent, Qt.RightEdge)
+            self.top_grip = PyGrips(parent, Qt.TopEdge)
+            self.bottom_grip = PyGrips(parent, Qt.BottomEdge)
+            # UPDATE WHEN RESIZE
+            parent.resizeEvent = self._resize_grips
+
+        # ADD DROP SHADOW
+        # ///////////////////////////////////////////////////////////////
+        if self.settings["custom_title_bar"]:
+            if enable_shadow:
+                self.shadow = QGraphicsDropShadowEffect()
+                self.shadow.setBlurRadius(25)
+                self.shadow.setXOffset(0)
+                self.shadow.setYOffset(0)
+                self.shadow.setColor(QColor(0, 0, 0, 120))
+                self.setGraphicsEffect(self.shadow)
+
+    # APPLY AND UPDATE STYLESHEET
+    # ///////////////////////////////////////////////////////////////
+    def set_stylesheet(
+        self,
+        bg_color = None,
+        border_radius = None,
+        border_size = None,
+        border_color = None,
+        text_color = None,
+        text_font = None
+    ):
+        # CHECK BG COLOR
+        if border_radius != None: internal_bg_color = bg_color
+        else: internal_bg_color = self.bg_color
+
+        # CHECK BORDER RADIUS
+        if border_radius != None: internal_border_radius = border_radius
+        else: internal_border_radius = self.border_radius
+
+        # CHECK BORDER SIZE
+        if border_size != None: internal_border_size = border_size
+        else: internal_border_size = self.border_size
+
+        # CHECK BORDER COLOR
+        if text_color != None: internal_text_color = text_color
+        else: internal_text_color = self.text_color
+
+        # CHECK TEXT COLOR
+        if border_color != None: internal_border_color = border_color
+        else: internal_border_color = self.border_color
+
+        # CHECK TEXT COLOR
+        if text_font != None: internal_text_font = text_font
+        else: internal_text_font = self.text_font
+
+        self.setStyleSheet(Styles.bg_style.format(
+            _bg_color = internal_bg_color,
+            _border_radius = internal_border_radius,
+            _border_size = internal_border_size,
+            _border_color = internal_border_color,
+            _text_color = internal_text_color,
+            _text_font = internal_text_font
+        ))
+    
+    # RESIZE GRIPS AND CHANGE POSITION
+    # Resize or change position when window is resized
+    # ///////////////////////////////////////////////////////////////
+    def _resize_grips(self, event):
+        if self.settings["custom_title_bar"]:
+            self.left_grip.setGeometry(0, 10, 10, self.parent.height())
+            self.right_grip.setGeometry(self.parent.width() - 10, 10, 10, self.parent.height())
+            self.top_grip.setGeometry(0, 0, self.parent.width(), 10)
+            self.bottom_grip.setGeometry(0, self.parent.height() - 10, self.parent.width(), 10)
         

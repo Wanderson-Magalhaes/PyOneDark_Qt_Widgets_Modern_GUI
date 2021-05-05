@@ -26,6 +26,10 @@ from qt_core import *
 # ///////////////////////////////////////////////////////////////
 from gui.core.json_settings import Settings
 
+# IMPORT THEME COLORS
+# ///////////////////////////////////////////////////////////////
+from gui.core.json_themes import Themes
+
 # IMPORT PY ONE DARK WIDGETS
 # ///////////////////////////////////////////////////////////////
 from gui.widgets import *
@@ -42,15 +46,30 @@ class UI_MainWindow(object):
         settings = Settings()
         self.settings = settings.items
 
+        # LOAD THEME COLOR
+        # ///////////////////////////////////////////////////////////////
+        themes = Themes()
+        self.themes = themes.items
+
         # SET INITIAL PARAMETERS
         parent.setMinimumSize(self.settings["startup_size"][0], self.settings["startup_size"][1])
         
         # LOAD PY WINDOW CUSTOM WIDGET
+        # Add inside PyWindow "layout" all Widgets
         # ///////////////////////////////////////////////////////////////
-        self.window = PyWindow(parent)
-
-        # TEXT
-        self.label = QLabel(self.settings["app_name"], self.window)        
+        self.window = PyWindow(
+            parent,
+            bg_color = self.themes["app_color"]["bg_one"],
+            border_color = self.themes["app_color"]["bg_two"],
+            text_color = self.themes["app_color"]["text_foreground"]
+        )
+        
+        # ADD WIDGETS TO "PyWindow"
+        # Add here your custom widgets or default widgets
+        # ///////////////////////////////////////////////////////////////
+        self.window.layout.addWidget(QLabel(self.settings["app_name"]))
+        self.window.layout.addWidget(QLabel(self.settings["app_name"]))
 
         # ADD CENTRAL WIDGET
         parent.setCentralWidget(self.window)
+        parent.setContentsMargins(10,10,10,10)
