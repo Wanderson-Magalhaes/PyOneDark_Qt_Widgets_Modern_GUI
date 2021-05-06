@@ -17,6 +17,7 @@
 # IMPORT PACKAGES AND MODULES
 # ///////////////////////////////////////////////////////////////
 import sys
+import os
 
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
@@ -29,11 +30,15 @@ from gui.core.json_settings import Settings
 # IMPORT PY ONE DARK WINDOWS
 # ///////////////////////////////////////////////////////////////
 # MAIN WINDOW
-from gui.uis.windows.main_window.ui_main import UI_MainWindow 
+from gui.uis.windows.main_window import *
 
 # IMPORT PY ONE DARK WIDGETS
 # ///////////////////////////////////////////////////////////////
 from gui.widgets import *
+
+# ADJUST QT FONT DPI FOR HIGHT SCALE
+# ///////////////////////////////////////////////////////////////
+os.environ["QT_FONT_DPI"] = "96"
 
 # MAIN WINDOW
 # ///////////////////////////////////////////////////////////////
@@ -46,10 +51,25 @@ class MainWindow(QMainWindow):
         self.ui = UI_MainWindow()
         self.ui.setup_ui(self)
 
+        # LOAD SETTINGS
+        # ///////////////////////////////////////////////////////////////
+        settings = Settings()
+        self.settings = settings.items        
+
+        # SETUP MAIN WINDOW
+        # ///////////////////////////////////////////////////////////////
+        self.hide_grips = True # Show/Hide resize grips
+        SetupMainWindow.setup(self)
 
         # SHOW MAIN WINDOW
         # ///////////////////////////////////////////////////////////////
         self.show()
+
+    # RESIZE EVENT
+    # ///////////////////////////////////////////////////////////////
+    def resizeEvent(self, event):
+        SetupMainWindow.resize_grips(self)
+
 
 # SETTINGS WHEN TO START
 # Set the initial class and also additional parameters of the "QApplication" class

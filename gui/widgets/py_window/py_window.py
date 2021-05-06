@@ -88,16 +88,6 @@ class PyWindow(QFrame):
             self.layout = QHBoxLayout(self)
         self.layout.setContentsMargins(margin, margin, margin, margin)
 
-        # ADD GRIPS
-        # ///////////////////////////////////////////////////////////////
-        if self.settings["custom_title_bar"]:
-            self.left_grip = PyGrips(parent, Qt.LeftEdge)
-            self.right_grip = PyGrips(parent, Qt.RightEdge)
-            self.top_grip = PyGrips(parent, Qt.TopEdge)
-            self.bottom_grip = PyGrips(parent, Qt.BottomEdge)
-            # UPDATE WHEN RESIZE
-            parent.resizeEvent = self._resize_grips
-
         # ADD DROP SHADOW
         # ///////////////////////////////////////////////////////////////
         if self.settings["custom_title_bar"]:
@@ -121,7 +111,7 @@ class PyWindow(QFrame):
         text_font = None
     ):
         # CHECK BG COLOR
-        if border_radius != None: internal_bg_color = bg_color
+        if bg_color != None: internal_bg_color = bg_color
         else: internal_bg_color = self.bg_color
 
         # CHECK BORDER RADIUS
@@ -152,14 +142,4 @@ class PyWindow(QFrame):
             _text_color = internal_text_color,
             _text_font = internal_text_font
         ))
-    
-    # RESIZE GRIPS AND CHANGE POSITION
-    # Resize or change position when window is resized
-    # ///////////////////////////////////////////////////////////////
-    def _resize_grips(self, event):
-        if self.settings["custom_title_bar"]:
-            self.left_grip.setGeometry(0, 10, 10, self.parent.height())
-            self.right_grip.setGeometry(self.parent.width() - 10, 10, 10, self.parent.height())
-            self.top_grip.setGeometry(0, 0, self.parent.width(), 10)
-            self.bottom_grip.setGeometry(0, self.parent.height() - 10, self.parent.width(), 10)
         

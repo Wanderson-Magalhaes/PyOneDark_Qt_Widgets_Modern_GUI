@@ -34,6 +34,10 @@ from gui.core.json_themes import Themes
 # ///////////////////////////////////////////////////////////////
 from gui.widgets import *
 
+# IMPORT SETUP MAIN WINDOW
+# ///////////////////////////////////////////////////////////////
+from . setup_main_window import *
+
 # PY WINDOW
 # ///////////////////////////////////////////////////////////////
 class UI_MainWindow(object):
@@ -64,12 +68,20 @@ class UI_MainWindow(object):
             text_color = self.themes["app_color"]["text_foreground"]
         )
         
+        # If disable custom title bar
+        if not self.settings["custom_title_bar"]:
+            self.window.set_stylesheet(border_radius = 0, border_size = 0)
+        
         # ADD WIDGETS TO "PyWindow"
         # Add here your custom widgets or default widgets
         # ///////////////////////////////////////////////////////////////
         self.window.layout.addWidget(QLabel(self.settings["app_name"]))
         self.window.layout.addWidget(QLabel(self.settings["app_name"]))
 
-        # ADD CENTRAL WIDGET
+        # ADD CENTRAL WIDGET AND SET CONTENT MARGINS
+        # ///////////////////////////////////////////////////////////////
         parent.setCentralWidget(self.window)
-        parent.setContentsMargins(10,10,10,10)
+        if self.settings["custom_title_bar"]:
+            parent.setContentsMargins(10,10,10,10)
+        else:
+            parent.setContentsMargins(0,0,0,0)
