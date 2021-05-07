@@ -71,12 +71,52 @@ class UI_MainWindow(object):
         # If disable custom title bar
         if not self.settings["custom_title_bar"]:
             self.window.set_stylesheet(border_radius = 0, border_size = 0)
+
+        # ADD FRAME LEFT MENU
+        # Add here the custom left menu bar
+        # ///////////////////////////////////////////////////////////////
+        self.left_menu_frame = QFrame()
+        self.left_menu_frame.setMaximumSize(50, 17280)
+        self.left_menu_frame.setMinimumSize(self.settings["menu_size"]["minimum"], 0)
+        self.left_menu_frame.setStyleSheet("background: red; border-radius: 8px;")
+
+        # ADD RIGHT WIDGETS
+        # Add here the right widgets
+        # ///////////////////////////////////////////////////////////////
+        self.right_app_frame = QFrame()
+        self.right_app_frame.setStyleSheet("border-radius: 8px;")
+
+        # ADD RIGHT APP LAYOUT
+        self.right_app_layout = QVBoxLayout(self.right_app_frame)
+        self.right_app_layout.setContentsMargins(0,0,0,0)
+        self.right_app_layout.setSpacing(6)        
+
+        # ADD TITLE BAR FRAME
+        self.title_bar_frame = QFrame()
+        self.title_bar_frame.setMaximumHeight(40)
+        self.title_bar_frame.setMaximumHeight(40)
+        self.title_bar_frame.setStyleSheet("background: #f00")
+
+        # ADD CONTENT AREA
+        self.content_area_frame = QFrame()
+        self.content_area_frame.setStyleSheet("background: #f00")
+
+        # CREDITS / BOTTOM APP FRAME
+        self.credits_frame = QFrame()
+        self.credits_frame.setMaximumHeight(26)
+        self.credits_frame.setMaximumHeight(26)
+        self.credits_frame.setStyleSheet("background: #f00")
+
+        # ADD WIDGETS TO RIGHT LAYOUT
+        self.right_app_layout.addWidget(self.title_bar_frame)
+        self.right_app_layout.addWidget(self.content_area_frame)
+        self.right_app_layout.addWidget(self.credits_frame)
         
         # ADD WIDGETS TO "PyWindow"
         # Add here your custom widgets or default widgets
         # ///////////////////////////////////////////////////////////////
-        self.window.layout.addWidget(QLabel(self.settings["app_name"]))
-        self.window.layout.addWidget(QLabel(self.settings["app_name"]))
+        self.window.layout.addWidget(self.left_menu_frame)
+        self.window.layout.addWidget(self.right_app_frame)
 
         # ADD CENTRAL WIDGET AND SET CONTENT MARGINS
         # ///////////////////////////////////////////////////////////////

@@ -41,6 +41,10 @@ class Settings(object):
             "custom_title_bar" : True,
             "startup_size" : [],
             "minimum_size" : [],
+            "menu_size" : {
+                "minimum" : 0,
+                "maximum" : 0
+            },
             "theme_name" : ""
         }
 
