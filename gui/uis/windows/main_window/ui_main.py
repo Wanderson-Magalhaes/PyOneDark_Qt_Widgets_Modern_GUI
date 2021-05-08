@@ -80,6 +80,16 @@ class UI_MainWindow(object):
         self.left_menu_frame.setMinimumSize(self.settings["menu_size"]["minimum"], 0)
         self.left_menu_frame.setStyleSheet("background: red; border-radius: 8px;")
 
+        # LEFT MENU LAYOUT
+        self.left_menu_layout = QHBoxLayout(self.left_menu_frame)
+        self.left_menu_layout.setContentsMargins(0,0,0,0)
+
+        # ADD LEFT MENU
+        # Add custom left menu here
+        # ///////////////////////////////////////////////////////////////
+        self.left_menu = PyLeftMenu(self.left_menu_frame)
+        self.left_menu_layout.addWidget(self.left_menu)
+
         # ADD RIGHT WIDGETS
         # Add here the right widgets
         # ///////////////////////////////////////////////////////////////
@@ -89,7 +99,7 @@ class UI_MainWindow(object):
         # ADD RIGHT APP LAYOUT
         self.right_app_layout = QVBoxLayout(self.right_app_frame)
         self.right_app_layout.setContentsMargins(0,0,0,0)
-        self.right_app_layout.setSpacing(6)        
+        self.right_app_layout.setSpacing(6)
 
         # ADD TITLE BAR FRAME
         self.title_bar_frame = QFrame()

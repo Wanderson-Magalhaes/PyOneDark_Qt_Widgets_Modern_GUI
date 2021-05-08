@@ -36,6 +36,7 @@ class Settings(object):
         super(Settings, self).__init__()
 
         # DICTIONARY WITH SETTINGS
+        # Just to have objects references
         self.items = {
             "app_name" : "",
             "custom_title_bar" : True,
@@ -45,7 +46,8 @@ class Settings(object):
                 "minimum" : 0,
                 "maximum" : 0
             },
-            "theme_name" : ""
+            "theme_name" : "",
+            "teste" : ""
         }
 
         # DESERIALIZE
