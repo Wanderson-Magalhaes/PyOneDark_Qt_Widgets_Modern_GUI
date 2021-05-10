@@ -26,6 +26,14 @@ from qt_core import *
 # ///////////////////////////////////////////////////////////////
 from gui.core.json_settings import Settings
 
+# IMPORT SETTINGS
+# ///////////////////////////////////////////////////////////////
+from gui.core.json_themes import Themes
+
+# IMPORT BUTTON
+# ///////////////////////////////////////////////////////////////
+from . py_left_menu_button import PyLeftMenuButton
+
 # PY LEFT MENU
 # ///////////////////////////////////////////////////////////////
 class PyLeftMenu(QWidget):
@@ -42,18 +50,31 @@ class PyLeftMenu(QWidget):
     ):
         super(PyLeftMenu, self).__init__()
 
+        # LOAD THEMES
+        # ///////////////////////////////////////////////////////////////
+        themes = Themes()
+        self.themes = themes.items
+
         # SET PARENT
         self.parent = parent
 
         # SETUP WIDGETS
         self.setup_ui()
 
-        self.button = QPushButton("teste")
+        self.button = PyLeftMenuButton("tooltip")
+        self.button.clicked.connect(lambda: self.size_change())
         self.button_2 = QPushButton("teste")
         self.layout.addWidget(self.button)
         self.layout.addWidget(self.button_2)
 
-        parent.setMinimumWidth(240)
+        self.animation = QPropertyAnimation(parent, b"minimumWidth")
+        self.animation.setStartValue(50)
+        self.animation.setEndValue(240)
+        self.animation.setEasingCurve(QEasingCurve.InOutCubic)
+        self.animation.setDuration(500)
+
+    def size_change(self):        
+        self.animation.start()
 
     # SET APP LAYOUT
     def setup_ui(self):
