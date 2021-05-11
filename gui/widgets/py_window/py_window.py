@@ -92,7 +92,7 @@ class PyWindow(QFrame):
         if self.settings["custom_title_bar"]:
             if enable_shadow:
                 self.shadow = QGraphicsDropShadowEffect()
-                self.shadow.setBlurRadius(10)
+                self.shadow.setBlurRadius(20)
                 self.shadow.setXOffset(0)
                 self.shadow.setYOffset(0)
                 self.shadow.setColor(QColor(0, 0, 0, 160))

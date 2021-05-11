@@ -40,20 +40,29 @@ class PyLeftMenu(QWidget):
     def __init__(
         self,
         parent = None,
-        bg_color = "#1b1e23",
-        bg_color_app = "#2c313c",
+        dark_one = "#1b1e23",
+        bg_one = "#2c313c",
         icon_color = "#c3ccdf",
         icon_color_hover = "#dce1ec",
         icon_color_pressed = "#edf0f5",
         icon_color_active = "#f5f6f9",
-        context_color = "#568af2"
+        context_color = "#568af2",
+        duration_time = 500,
+        radius = 8
     ):
         super(PyLeftMenu, self).__init__()
 
-        # LOAD THEMES
+        # PROPERTIES
         # ///////////////////////////////////////////////////////////////
-        themes = Themes()
-        self.themes = themes.items
+        self._bg_dark_one = dark_one,
+        self._bg_one = bg_one,
+        self._icon_color = icon_color,
+        self._icon_color_hover = icon_color_hover,
+        self._icon_color_pressed = icon_color_pressed,
+        self._icon_color_active = icon_color_active,
+        self._context_color = context_color
+        self._duration_time = duration_time
+        self._radius = radius
 
         # SET PARENT
         self.parent = parent
@@ -61,19 +70,30 @@ class PyLeftMenu(QWidget):
         # SETUP WIDGETS
         self.setup_ui()
 
-        self.button = PyLeftMenuButton("tooltip")
+        # SET BG COLOR
+        self.bg.setStyleSheet(f"background: {dark_one}; border-radius: {radius};")
+
+        self.button = PyLeftMenuButton("Add user menu")
         self.button.clicked.connect(lambda: self.size_change())
         self.button_2 = QPushButton("teste")
+        self.button_3 = PyLeftMenuButton("Teste menu", icon_path="gui/images/svg_icons/icon_settings.svg")
         self.layout.addWidget(self.button)
         self.layout.addWidget(self.button_2)
+        self.layout.addWidget(self.button_3)
 
-        self.animation = QPropertyAnimation(parent, b"minimumWidth")
-        self.animation.setStartValue(50)
-        self.animation.setEndValue(240)
+        
+
+    def size_change(self):
+        self.animation = QPropertyAnimation(self.parent, b"minimumWidth")
+        self.animation.stop()
+        if self.width() == 50:
+            self.animation.setStartValue(self.width())
+            self.animation.setEndValue(240)
+        else:
+            self.animation.setStartValue(self.width())
+            self.animation.setEndValue(50)
         self.animation.setEasingCurve(QEasingCurve.InOutCubic)
-        self.animation.setDuration(500)
-
-    def size_change(self):        
+        self.animation.setDuration(self._duration_time)      
         self.animation.start()
 
     # SET APP LAYOUT
@@ -84,7 +104,6 @@ class PyLeftMenu(QWidget):
 
         # ADD BG
         self.bg = QFrame(self)
-        self.bg.setStyleSheet("background: #CCC")
 
         # ADD LAYOUT
         self.layout = QVBoxLayout(self.bg)
