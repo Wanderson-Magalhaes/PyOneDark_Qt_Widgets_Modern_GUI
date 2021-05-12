@@ -40,6 +40,7 @@ class PyLeftMenu(QWidget):
     def __init__(
         self,
         parent = None,
+        app_parent = None,
         dark_one = "#1b1e23",
         bg_one = "#2c313c",
         icon_color = "#c3ccdf",
@@ -65,7 +66,8 @@ class PyLeftMenu(QWidget):
         self._radius = radius
 
         # SET PARENT
-        self.parent = parent
+        self._parent = parent
+        self._app_parent = app_parent
 
         # SETUP WIDGETS
         self.setup_ui()
@@ -73,28 +75,40 @@ class PyLeftMenu(QWidget):
         # SET BG COLOR
         self.bg.setStyleSheet(f"background: {dark_one}; border-radius: {radius};")
 
-        self.button = PyLeftMenuButton("Add user menu")
+        self.button = PyLeftMenuButton(
+            app_parent,
+            "Add user menu", 
+            "Test tooltip",
+        )
         self.button.clicked.connect(lambda: self.size_change())
         self.button_2 = QPushButton("teste")
-        self.button_3 = PyLeftMenuButton("Teste menu", icon_path="gui/images/svg_icons/icon_settings.svg")
+        self.button_3 = PyLeftMenuButton(
+            app_parent, 
+            "Teste menu", 
+            "Tooltip 2",
+            icon_path="gui/images/svg_icons/icon_settings.svg"
+        )
         self.layout.addWidget(self.button)
         self.layout.addWidget(self.button_2)
         self.layout.addWidget(self.button_3)
 
-        
-
     def size_change(self):
-        self.animation = QPropertyAnimation(self.parent, b"minimumWidth")
+        self.animation = QPropertyAnimation(self._parent, b"minimumWidth")
         self.animation.stop()
         if self.width() == 50:
             self.animation.setStartValue(self.width())
             self.animation.setEndValue(240)
+            # ACTIVE
+            self.button.set_active(True)
         else:
             self.animation.setStartValue(self.width())
             self.animation.setEndValue(50)
+            # ACTIVE
+            self.button.set_active(False)
         self.animation.setEasingCurve(QEasingCurve.InOutCubic)
         self.animation.setDuration(self._duration_time)      
-        self.animation.start()
+        self.animation.start()        
+        
 
     # SET APP LAYOUT
     def setup_ui(self):

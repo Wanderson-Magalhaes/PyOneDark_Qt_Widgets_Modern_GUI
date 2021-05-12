@@ -16,6 +16,7 @@
 
 # IMPORT PACKAGES AND MODULES
 # ///////////////////////////////////////////////////////////////
+from gui.widgets.py_window import styles
 import os
 
 # IMPORT QT CORE
@@ -26,37 +27,29 @@ from qt_core import *
 # ///////////////////////////////////////////////////////////////
 from gui.core.json_themes import Themes
 
-# TOOLTIP / LABEL StyleSheet
-style_tooltip = """ 
-QLabel {		
-	background-color: #0b0b0c;	
-	color: rgb(230, 230, 230);
-	padding-left: 10px;
-	padding-right: 10px;
-	border-radius: 17px;
-    border: 1px solid #2f3032;
-    border-left: 3px solid #bdff00;
-    font: 800 9pt "Segoe UI";
-}
-"""
-
 # CUSTOM LEFT MENU
 # ///////////////////////////////////////////////////////////////
 class PyLeftMenuButton(QPushButton):
     def __init__(
         self,
+        app_parent,
         text,
+        tooltip_text = "",
         margin = 4,
         dark_one = "#1b1e23",
         dark_three = "#21252d",
+        dark_four = "#272c36",
         bg_one = "#2c313c",
         icon_color = "#c3ccdf",
         icon_color_hover = "#dce1ec",
         icon_color_pressed = "#edf0f5",
         icon_color_active = "#f5f6f9",
         context_color = "#568af2",
+        text_foreground = "#8a95aa",
+        text_active = "#dce1ec",
         icon_path = "gui/images/svg_icons/icon_add_user.svg",
-        icon_active_menu = "gui/images/svg_icons/active_menu.svg"
+        icon_active_menu = "gui/images/svg_icons/active_menu.svg",
+        is_active = False
     ):
         super(PyLeftMenuButton, self).__init__()
         self.setText(text)
@@ -72,70 +65,102 @@ class PyLeftMenuButton(QPushButton):
         self._margin = margin
         self._dark_one = dark_one
         self._dark_three = dark_three
+        self._dark_four = dark_four
         self._bg_one = bg_one
         self._context_color = context_color
         self._icon_color = icon_color
+        self._icon_color_hover = icon_color_hover
+        self._icon_color_pressed = icon_color_pressed
         self._icon_color_active = icon_color_active
-        self._icon_set_color = self._icon_color
         self._icon_active_menu = icon_active_menu
+        self._is_active = is_active
+        self._set_icon_color = self._icon_color # Set icon color
+        self._set_bg_color = self._dark_one # Set BG color
+        self._set_text_foreground = text_foreground
+        self._set_text_active = text_active
+        self._parent = app_parent
 
+        # TOOLTIP
+        self._tooltip_text = tooltip_text
+        self.tooltip = _ToolTip(
+            app_parent,
+            tooltip_text,
+            dark_one,
+            context_color,
+            text_foreground
+        )
+        self.tooltip.hide()
+
+    # PAINT EVENT
+    # ///////////////////////////////////////////////////////////////
     def paintEvent(self, event):
         # PAINTER
         p = QPainter()
         p.begin(self)
         p.setRenderHint(QPainter.Antialiasing)
         p.setPen(Qt.NoPen)
-        font = p.font()
-        font.setFamily("Segoe UI")
-        font.setPointSize(10)
-        p.setFont(font)
+        p.setFont(self.font())
 
         # RECTANGLES
         rect = QRect(4, 5, self.width(), self.height() - 10)
+        rect_inside = QRect(4, 5, self.width() - 8, self.height() - 10)
         rect_icon = QRect(0, 0, 50, self.height())
         rect_blue = QRect(4, 5, 20, self.height() - 10)
         rect_inside_active = QRect(7, 5, self.width(), self.height() - 10)
-        rect_active_bar = QRect(self.width() - 5, 0, 5, self.height() - 10)
-        rect_text = QRect(50, 0, self.width() - 50, self.height())
+        rect_text = QRect(45, 0, self.width() - 50, self.height())
 
         # DRAW DEFAULT BG        
         p.setBrush(QColor(self._dark_one))
         p.drawRoundedRect(rect, 0, 0)
 
-        # DRAW BG BLUE
-        p.setBrush(QColor(self._context_color))
-        p.drawRoundedRect(rect_blue, 8, 8)
+        if self._is_active:
+            # DRAW BG BLUE
+            p.setBrush(QColor(self._context_color))
+            p.drawRoundedRect(rect_blue, 8, 8)
 
-        # BG INSIDE
-        p.setBrush(QColor(self._bg_one))
-        p.drawRoundedRect(rect_inside_active, 8, 8)
+            # BG INSIDE
+            p.setBrush(QColor(self._bg_one))
+            p.drawRoundedRect(rect_inside_active, 8, 8)
 
-        # BG ACTIVE
-        # p.setBrush(QColor(self._bg_one))
-        # p.drawRect(rect_active_bar)
+            # DRAW ACTIVE
+            icon_path = self._icon_active_menu
+            app_path = os.path.abspath(os.getcwd())
+            icon_path = os.path.normpath(os.path.join(app_path, icon_path))
+            self._set_icon_color = self._icon_color_active
+            self.icon_active(p, icon_path, self.width())
+
+            # DRAW TEXT
+            p.setPen(QColor(self._set_text_active))
+            p.drawText(rect_text, Qt.AlignVCenter, self.text())
+
+        # NORMAL BG
+        else:
+            # BG INSIDE
+            p.setBrush(QColor(self._set_bg_color))
+            p.drawRoundedRect(rect_inside, 8, 8)
+
+            # DRAW TEXT
+            p.setPen(QColor(self._set_text_foreground))
+            p.drawText(rect_text, Qt.AlignVCenter, self.text())
 
         # DRAW ICONS
-        self.icon_paint(p, self._icon_path, rect_icon)
-
-        # DRAW ACTIVE
-        # APP PATH
-        icon_path = self._icon_active_menu
-        app_path = os.path.abspath(os.getcwd())
-        icon_path = os.path.normpath(os.path.join(app_path, icon_path))
-        self.icon_active(p, icon_path, self.width())
-
-        # DRAW TEXT
-        p.setPen(QColor(self._context_color))
-        p.drawText(rect_text, Qt.AlignVCenter, self.text())
+        self.icon_paint(p, self._icon_path, rect_icon)        
 
         p.end()
 
     # DRAW ICON WITH COLORS
+    # ///////////////////////////////////////////////////////////////
+    def set_active(self, is_active):
+        self._is_active = is_active
+        self.repaint()
+
+    # DRAW ICON WITH COLORS
+    # ///////////////////////////////////////////////////////////////
     def icon_paint(self, qp, image, rect):
         icon = QPixmap(image)
         painter = QPainter(icon)
         painter.setCompositionMode(QPainter.CompositionMode_SourceIn)
-        painter.fillRect(icon.rect(), self._icon_set_color)
+        painter.fillRect(icon.rect(), self._set_icon_color)
         qp.drawPixmap(
             (rect.width() - icon.width()) / 2, 
             (rect.height() - icon.height()) / 2,
@@ -143,7 +168,8 @@ class PyLeftMenuButton(QPushButton):
         )        
         painter.end()
 
-    # DRAW ICON WITH COLORS
+    # DRAW ACTIVE ICON / RIGHT SIDE
+    # ///////////////////////////////////////////////////////////////
     def icon_active(self, qp, image, width):
         icon = QPixmap(image)
         painter = QPainter(icon)
@@ -152,55 +178,126 @@ class PyLeftMenuButton(QPushButton):
         qp.drawPixmap(width - 5, 0, icon)
         painter.end()
 
-class _ActiveIcon(QLabel):
-    def __init__(self, parent, tooltip):
-        QLabel.__init__(self)
+    # CHANGE STYLES
+    # Functions with custom styles
+    # ///////////////////////////////////////////////////////////////
+    def change_style(self, event):
+        if event == QEvent.Enter:
+            if not self._is_active:
+                self._set_icon_color = self._icon_color_hover
+                self._set_bg_color = self._dark_three
+            self.repaint()          
+        elif event == QEvent.Leave:
+            if not self._is_active:
+                self._set_icon_color = self._icon_color
+                self._set_bg_color = self._dark_one
+            self.repaint()
+        elif event == QEvent.MouseButtonPress:
+            if not self._is_active:         
+                self._set_icon_color = self._context_color
+                self._set_bg_color = self._dark_four
+            self.repaint()  
+        elif event == QEvent.MouseButtonRelease:
+            if not self._is_active:
+                self._set_icon_color = self._icon_color_hover
+                self._set_bg_color = self._dark_three
+            self.repaint()
+    
+    # MOUSE OVER
+    # Event triggered when the mouse is over the BTN
+    # ///////////////////////////////////////////////////////////////
+    def enterEvent(self, event):
+        self.change_style(QEvent.Enter)
+        if self.width() == 50 and self._tooltip_text:
+            self.move_tooltip()
+            self.tooltip.show()
 
-        # LABEL SETUP
-        self.setObjectName(u"label_tooltip")
-        self.setStyleSheet(style_tooltip)
-        self.setMaximumSize(10,60)
-        self.setMinimumSize(10,60)
-        self.setParent(parent)
-        self.setText(tooltip)
-        self.adjustSize()
+    # MOUSE LEAVE
+    # Event fired when the mouse leaves the BTN
+    # ///////////////////////////////////////////////////////////////
+    def leaveEvent(self, event):
+        self.change_style(QEvent.Leave)
+        self.tooltip.hide()
 
-        # SET DROP SHADOW
-        self.shadow = QGraphicsDropShadowEffect(self)
-        self.shadow.setBlurRadius(15)
-        self.shadow.setXOffset(0)
-        self.shadow.setYOffset(0)
-        self.shadow.setColor(QColor(0, 0, 0, 160))
-        self.setGraphicsEffect(self.shadow)
+    # MOUSE PRESS
+    # Event triggered when the left button is pressed
+    # ///////////////////////////////////////////////////////////////
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.change_style(QEvent.MouseButtonPress)
+            self.tooltip.hide()
+        return self.clicked.emit()
 
-        # SET OPACITY
-        self.opacity = QGraphicsOpacityEffect(self)
-        self.opacity.setOpacity(0.85)
-        self.setGraphicsEffect(self.opacity)
+    # MOUSE RELEASED
+    # Event triggered after the mouse button is released
+    # ///////////////////////////////////////////////////////////////
+    def mouseReleaseEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.change_style(QEvent.MouseButtonRelease)
+
+    # MOVE TOOLTIP
+    # ///////////////////////////////////////////////////////////////
+    def move_tooltip(self):
+        # GET MAIN WINDOW PARENT
+        gp = self.mapToGlobal(QPoint(0, 0))
+
+        # SET WIDGET TO GET POSTION
+        # Return absolute position of widget inside app
+        pos = self._parent.mapFromGlobal(gp)
+
+        # FORMAT POSITION
+        # Adjust tooltip position with offset
+        pos_x = pos.x() + self.width() + 5
+        pos_y = pos.y() + (self.width() - self.tooltip.height()) // 2
+
+        # SET POSITION TO WIDGET
+        # Move tooltip position
+        self.tooltip.move(pos_x, pos_y) 
 
 class _ToolTip(QLabel):
-    def __init__(self, parent, tooltip):
+    # TOOLTIP / LABEL StyleSheet
+    style_tooltip = """ 
+    QLabel {{		
+        background-color: {_dark_one};	
+        color: {_text_foreground};
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 17px;
+        border: 0px solid transparent;
+        border-left: 3px solid {_context_color};
+        font: 800 9pt "Segoe UI";
+    }}
+    """
+
+    def __init__(
+        self,
+        parent, 
+        tooltip,
+        dark_one,
+        context_color,
+        text_foreground
+    ):
         QLabel.__init__(self)
 
         # LABEL SETUP
+        style = self.style_tooltip.format(
+            _dark_one = dark_one,
+            _context_color = context_color,
+            _text_foreground = text_foreground
+        )
         self.setObjectName(u"label_tooltip")
-        self.setStyleSheet(style_tooltip)
-        self.setMinimumHeight(36)
+        self.setStyleSheet(style)
+        self.setMinimumHeight(34)
         self.setParent(parent)
         self.setText(tooltip)
         self.adjustSize()
 
         # SET DROP SHADOW
         self.shadow = QGraphicsDropShadowEffect(self)
-        self.shadow.setBlurRadius(15)
+        self.shadow.setBlurRadius(30)
         self.shadow.setXOffset(0)
         self.shadow.setYOffset(0)
-        self.shadow.setColor(QColor(0, 0, 0, 160))
+        self.shadow.setColor(QColor(0, 0, 0, 80))
         self.setGraphicsEffect(self.shadow)
-
-        # SET OPACITY
-        self.opacity = QGraphicsOpacityEffect(self)
-        self.opacity.setOpacity(0.85)
-        self.setGraphicsEffect(self.opacity)
 
     

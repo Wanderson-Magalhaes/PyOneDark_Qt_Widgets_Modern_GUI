@@ -16,6 +16,7 @@
         "context_pressed" : "#3f6fd1",
         "text_title" : "#dce1ec",
         "text_foreground" : "#8a95aa",
-        "text_description" : "#6c7b95"
+        "text_description" : "#6c7b95",
+        "text_active" : "#dce1ec"
     }
 }

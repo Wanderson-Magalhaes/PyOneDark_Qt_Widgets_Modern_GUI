@@ -101,6 +101,7 @@ class UI_MainWindow(object):
         # ///////////////////////////////////////////////////////////////
         self.left_menu = PyLeftMenu(
             parent = self.left_menu_frame,
+            app_parent = self.central_widget,
             dark_one = self.themes["app_color"]["dark_one"]
         )
         self.left_menu_layout.addWidget(self.left_menu)
@@ -120,7 +121,7 @@ class UI_MainWindow(object):
         self.title_bar_frame = QFrame()
         self.title_bar_frame.setMaximumHeight(40)
         self.title_bar_frame.setMaximumHeight(40)
-        self.title_bar_frame.setStyleSheet("background: #f00")
+        self.title_bar_frame.setStyleSheet("background: #343b48; border-radius: 8px;")
 
         # ADD CONTENT AREA
         self.content_area_frame = QFrame()
