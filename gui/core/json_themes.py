@@ -45,27 +45,7 @@ class Themes(object):
         super(Themes, self).__init__()
 
         # DICTIONARY WITH SETTINGS
-        self.items = {
-            "theme_name" : "",
-            "app_color" : {
-                "dark_one" : "",
-                "dark_two" : "",
-                "dark_three" : "",
-                "dark_four" : "",
-                "bg_one" : "",
-                "bg_two" : "",
-                "icon_normal" : "",
-                "icon_hover" : "",
-                "icon_pressed" : "",
-                "icon_active" : "",
-                "context_color" : "",
-                "context_hover" : "",
-                "context_pressed" : "",
-                "text_title" : "",
-                "text_foreground" : "",
-                "text_description" : ""
-            }
-        }
+        self.items = {}
 
         # DESERIALIZE
         self.deserialize()

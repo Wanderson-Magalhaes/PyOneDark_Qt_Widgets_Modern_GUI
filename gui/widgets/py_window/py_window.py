@@ -40,7 +40,8 @@ class PyWindow(QFrame):
         self,
         parent,
         layout = Qt.Vertical,
-        margin = 5,
+        margin = 0,
+        spacing = 2,
         bg_color = "#2c313c",
         text_color = "#fff",
         text_font = "9pt 'Segoe UI'",
@@ -86,6 +87,7 @@ class PyWindow(QFrame):
             # HORIZONTAL LAYOUT
             self.layout = QHBoxLayout(self)
         self.layout.setContentsMargins(margin, margin, margin, margin)
+        self.layout.setSpacing(spacing)
 
         # ADD DROP SHADOW
         # ///////////////////////////////////////////////////////////////

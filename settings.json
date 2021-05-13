@@ -9,8 +9,13 @@
         960,
         540
     ],
-    "menu_size" : {
+    "lef_menu_size" : {
         "minimum" : 50,
+        "maximum" : 240
+    },
+    "left_menu_content_margins" : 3,
+    "lef_column_size" : {
+        "minimum" : 240,
         "maximum" : 240
     },
     "theme_name": "default"

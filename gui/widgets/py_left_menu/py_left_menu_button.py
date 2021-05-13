@@ -16,16 +16,11 @@
 
 # IMPORT PACKAGES AND MODULES
 # ///////////////////////////////////////////////////////////////
-from gui.widgets.py_window import styles
 import os
 
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
 from qt_core import *
-
-# IMPORT COLORS
-# ///////////////////////////////////////////////////////////////
-from gui.core.json_themes import Themes
 
 # CUSTOM LEFT MENU
 # ///////////////////////////////////////////////////////////////
@@ -49,7 +44,8 @@ class PyLeftMenuButton(QPushButton):
         text_active = "#dce1ec",
         icon_path = "gui/images/svg_icons/icon_add_user.svg",
         icon_active_menu = "gui/images/svg_icons/active_menu.svg",
-        is_active = False
+        is_active = False,
+        is_toggle_active = False
     ):
         super(PyLeftMenuButton, self).__init__()
         self.setText(text)
@@ -73,12 +69,13 @@ class PyLeftMenuButton(QPushButton):
         self._icon_color_pressed = icon_color_pressed
         self._icon_color_active = icon_color_active
         self._icon_active_menu = icon_active_menu
-        self._is_active = is_active
         self._set_icon_color = self._icon_color # Set icon color
         self._set_bg_color = self._dark_one # Set BG color
         self._set_text_foreground = text_foreground
         self._set_text_active = text_active
         self._parent = app_parent
+        self._is_active = is_active
+        self._is_toggle_active = is_toggle_active
 
         # TOOLTIP
         self._tooltip_text = tooltip_text
@@ -133,34 +130,65 @@ class PyLeftMenuButton(QPushButton):
             p.setPen(QColor(self._set_text_active))
             p.drawText(rect_text, Qt.AlignVCenter, self.text())
 
+            # DRAW ICONS
+            self.icon_paint(p, self._icon_path, rect_icon, self._set_icon_color) 
+
         # NORMAL BG
         else:
-            # BG INSIDE
-            p.setBrush(QColor(self._set_bg_color))
-            p.drawRoundedRect(rect_inside, 8, 8)
+            if self._is_toggle_active:
+                # BG INSIDE
+                p.setBrush(QColor(self._dark_three))
+                p.drawRoundedRect(rect_inside, 8, 8)
 
-            # DRAW TEXT
-            p.setPen(QColor(self._set_text_foreground))
-            p.drawText(rect_text, Qt.AlignVCenter, self.text())
+                # DRAW TEXT
+                p.setPen(QColor(self._set_text_foreground))
+                p.drawText(rect_text, Qt.AlignVCenter, self.text())
 
-        # DRAW ICONS
-        self.icon_paint(p, self._icon_path, rect_icon)        
+                # DRAW ICONS
+                if self._is_toggle_active:
+                    self.icon_paint(p, self._icon_path, rect_icon, self._context_color)
+                else:
+                    self.icon_paint(p, self._icon_path, rect_icon, self._set_icon_color)
+            else:
+                # BG INSIDE
+                p.setBrush(QColor(self._set_bg_color))
+                p.drawRoundedRect(rect_inside, 8, 8)
+
+                # DRAW TEXT
+                p.setPen(QColor(self._set_text_foreground))
+                p.drawText(rect_text, Qt.AlignVCenter, self.text())
+
+                # DRAW ICONS
+                self.icon_paint(p, self._icon_path, rect_icon, self._set_icon_color)        
 
         p.end()
 
-    # DRAW ICON WITH COLORS
+    # SET ACTIVE MENU
     # ///////////////////////////////////////////////////////////////
     def set_active(self, is_active):
         self._is_active = is_active
+        if not is_active:
+            self._set_icon_color = self._icon_color
+        self.repaint()
+    
+    # SET ACTIVE TOGGLE
+    # ///////////////////////////////////////////////////////////////
+    def set_active_toggle(self, is_active):
+        self._is_toggle_active = is_active
+
+    # SET ICON
+    # ///////////////////////////////////////////////////////////////
+    def set_icon(self, icon_path):
+        self._icon_path = icon_path
         self.repaint()
 
     # DRAW ICON WITH COLORS
     # ///////////////////////////////////////////////////////////////
-    def icon_paint(self, qp, image, rect):
+    def icon_paint(self, qp, image, rect, color):
         icon = QPixmap(image)
         painter = QPainter(icon)
         painter.setCompositionMode(QPainter.CompositionMode_SourceIn)
-        painter.fillRect(icon.rect(), self._set_icon_color)
+        painter.fillRect(icon.rect(), color)
         qp.drawPixmap(
             (rect.width() - icon.width()) / 2, 
             (rect.height() - icon.height()) / 2,

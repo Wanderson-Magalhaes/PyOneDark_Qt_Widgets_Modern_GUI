@@ -37,18 +37,7 @@ class Settings(object):
 
         # DICTIONARY WITH SETTINGS
         # Just to have objects references
-        self.items = {
-            "app_name" : "",
-            "custom_title_bar" : True,
-            "startup_size" : [],
-            "minimum_size" : [],
-            "menu_size" : {
-                "minimum" : 0,
-                "maximum" : 0
-            },
-            "theme_name" : "",
-            "teste" : ""
-        }
+        self.items = {}
 
         # DESERIALIZE
         self.deserialize()

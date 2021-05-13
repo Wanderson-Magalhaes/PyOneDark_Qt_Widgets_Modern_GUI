@@ -88,24 +88,40 @@ class UI_MainWindow(object):
         # ADD FRAME LEFT MENU
         # Add here the custom left menu bar
         # ///////////////////////////////////////////////////////////////
+        left_menu_margin = self.settings["left_menu_content_margins"]
+        left_menu_minimum = self.settings["lef_menu_size"]["minimum"]
         self.left_menu_frame = QFrame()
-        self.left_menu_frame.setMaximumSize(50, 17280)
-        self.left_menu_frame.setMinimumSize(self.settings["menu_size"]["minimum"], 0)
+        self.left_menu_frame.setMaximumSize(left_menu_minimum + (left_menu_margin * 2), 17280)
+        self.left_menu_frame.setMinimumSize(left_menu_minimum + (left_menu_margin * 2), 0)
 
         # LEFT MENU LAYOUT
         self.left_menu_layout = QHBoxLayout(self.left_menu_frame)
-        self.left_menu_layout.setContentsMargins(0,0,0,0)
+        self.left_menu_layout.setContentsMargins(
+            left_menu_margin,
+            left_menu_margin,
+            left_menu_margin,
+            left_menu_margin
+        )
 
         # ADD LEFT MENU
         # Add custom left menu here
         # ///////////////////////////////////////////////////////////////
         self.left_menu = PyLeftMenu(
             parent = self.left_menu_frame,
-            app_parent = self.central_widget,
+            app_parent = self.central_widget, # For tooltip parent
             dark_one = self.themes["app_color"]["dark_one"]
         )
         self.left_menu_layout.addWidget(self.left_menu)
         print(self.themes["app_color"]["dark_one"])
+
+        # ADD LEFT COLUMN
+        # Add here the left column with Stacked Widgets
+        # ///////////////////////////////////////////////////////////////
+        left_column_minimum = self.settings["lef_column_size"]["minimum"]
+        self.left_column_frame = QFrame()
+        self.left_column_frame.setMaximumSize(left_column_minimum, 17280)
+        self.left_column_frame.setMinimumSize(left_column_minimum, 0)
+        self.left_column_frame.setStyleSheet(f"background: {self.themes['app_color']['bg_two']}")
 
         # ADD RIGHT WIDGETS
         # Add here the right widgets
@@ -114,7 +130,7 @@ class UI_MainWindow(object):
 
         # ADD RIGHT APP LAYOUT
         self.right_app_layout = QVBoxLayout(self.right_app_frame)
-        self.right_app_layout.setContentsMargins(0,0,0,0)
+        self.right_app_layout.setContentsMargins(3,3,3,3)
         self.right_app_layout.setSpacing(6)
 
         # ADD TITLE BAR FRAME
@@ -122,6 +138,10 @@ class UI_MainWindow(object):
         self.title_bar_frame.setMaximumHeight(40)
         self.title_bar_frame.setMaximumHeight(40)
         self.title_bar_frame.setStyleSheet("background: #343b48; border-radius: 8px;")
+         # apagar
+        close = QPushButton("Fechar")
+        close.setParent(self.title_bar_frame)
+        close.clicked.connect(lambda: parent.close())
 
         # ADD CONTENT AREA
         self.content_area_frame = QFrame()
@@ -142,6 +162,7 @@ class UI_MainWindow(object):
         # Add here your custom widgets or default widgets
         # ///////////////////////////////////////////////////////////////
         self.window.layout.addWidget(self.left_menu_frame)
+        self.window.layout.addWidget(self.left_column_frame)
         self.window.layout.addWidget(self.right_app_frame)
 
         # ADD CENTRAL WIDGET AND SET CONTENT MARGINS
