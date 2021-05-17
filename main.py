@@ -62,9 +62,42 @@ class MainWindow(QMainWindow):
         self.hide_grips = True # Show/Hide resize grips
         SetupMainWindow.setup(self)
 
+        # GET SIGNALS WHEN LEFT MENU BTN IS CLICKED / RELEASED
+        # ///////////////////////////////////////////////////////////////
+        self.ui.left_menu.clicked.connect(self.left_menu_btn_clicked)
+        self.ui.left_menu.clicked.connect(self.left_menu_btn_released)
+
         # SHOW MAIN WINDOW
         # ///////////////////////////////////////////////////////////////
         self.show()
+
+    # LEFT MENU BTN IS CLICKED
+    # Run function when btn is clicked
+    # Check funtion by object name / btn_id
+    # ///////////////////////////////////////////////////////////////
+    def left_menu_btn_clicked(self):
+        # GET BT CLICKED
+        btn = self.ui.left_menu.sender()
+
+        if btn.objectName() == "btn_add_user":
+            if btn.is_active():
+                btn.set_active(False)
+            else:
+                btn.set_active(True)
+
+        # DEBUG
+        print(f"Button {btn.objectName()}, clicked!")
+
+    # LEFT MENU BTN IS RELEASED
+    # Run function when btn is released
+    # Check funtion by object name / btn_id
+    # ///////////////////////////////////////////////////////////////
+    def left_menu_btn_released(self):
+        # GET BT CLICKED
+        btn = self.ui.left_menu.sender()
+
+        # DEBUG
+        print(f"Button {btn.objectName()}, released!")
 
     # RESIZE EVENT
     # ///////////////////////////////////////////////////////////////

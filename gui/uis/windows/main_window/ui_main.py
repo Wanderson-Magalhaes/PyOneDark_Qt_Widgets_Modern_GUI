@@ -38,6 +38,10 @@ from gui.widgets import *
 # ///////////////////////////////////////////////////////////////
 from . setup_main_window import *
 
+# IMPORT FUNCTIONS MAIN WINDOW
+# ///////////////////////////////////////////////////////////////
+from . functions_main_window import *
+
 # PY WINDOW
 # ///////////////////////////////////////////////////////////////
 class UI_MainWindow(object):
@@ -111,8 +115,8 @@ class UI_MainWindow(object):
             app_parent = self.central_widget, # For tooltip parent
             dark_one = self.themes["app_color"]["dark_one"]
         )
+        self.left_menu.add_menus(self.settings["add_menus"])
         self.left_menu_layout.addWidget(self.left_menu)
-        print(self.themes["app_color"]["dark_one"])
 
         # ADD LEFT COLUMN
         # Add here the left column with Stacked Widgets

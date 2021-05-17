@@ -26,10 +26,14 @@ from . py_div import PyDiv
 # PY LEFT MENU
 # ///////////////////////////////////////////////////////////////
 class PyLeftMenu(QWidget):
+    clicked = Signal(str)
+    released = Signal(str)
+
     def __init__(
         self,
         parent = None,
         app_parent = None,
+        buttons = None,
         dark_one = "#1b1e23",
         dark_three = "#21252d",
         dark_four = "#272c36",
@@ -45,6 +49,8 @@ class PyLeftMenu(QWidget):
         maximum_width = 240,
         icon_path = "gui/images/svg_icons/icon_menu.svg",
         icon_path_close = "gui/images/svg_icons/icon_menu_close.svg",
+        toggle_text = "Hide Menu",
+        toggle_tooltip = "Expand/Retract menu"
     ):
         super(PyLeftMenu, self).__init__()
 
@@ -74,41 +80,73 @@ class PyLeftMenu(QWidget):
         # SET BG COLOR
         self.bg.setStyleSheet(f"background: {dark_one}; border-radius: {radius};")
 
-        self.button = PyLeftMenuButton(
-            app_parent,
-            "Add user menu", 
-            "Test tooltip",
-        )
-        self.button.clicked.connect(lambda: self.toggle_animation())
-
         # TOGGLE BUTTON AND DIV MENUS
         # ///////////////////////////////////////////////////////////////
         self.toggle_button = PyLeftMenuButton(
             app_parent, 
-            "Hide Menu", 
-            "Expand/Retract menu",
+            text = toggle_text, 
+            tooltip_text = toggle_tooltip,
             icon_path = icon_path
         )
         self.toggle_button.clicked.connect(self.toggle_animation)
         self.div_top = PyDiv(dark_four)
 
         # ADD TO TOP LAYOUT
+        # ///////////////////////////////////////////////////////////////
         self.top_layout.addWidget(self.toggle_button)
         self.top_layout.addWidget(self.div_top)
-        self.top_layout.addWidget(self.button) # Apagar
 
-        # BUTTON WIDGETS
+        # ADD TO BOTTOM LAYOUT
         # ///////////////////////////////////////////////////////////////
-        self.div_button = PyDiv(dark_four)
-        self.settings_button = PyLeftMenuButton(
-            app_parent, 
-            "Settings", 
-            "Open settings",
-            icon_path="gui/images/svg_icons/icon_settings.svg"
-        )
-        self.bottom_layout.addWidget(self.div_button)
-        self.bottom_layout.addWidget(self.settings_button)
+        self.div_bottom = PyDiv(dark_four)
+        self.div_bottom.hide()
+        self.bottom_layout.addWidget(self.div_bottom)
 
+        # ADD BUTTONS
+        # ///////////////////////////////////////////////////////////////
+        self.add_menus(buttons)
+
+    # ADD BUTTONS TO LEFT MENU
+    # Add btns and emit signals
+    # ///////////////////////////////////////////////////////////////
+    def add_menus(self, parameters):
+        if parameters != None:
+            for parameter in parameters:
+                _btn_icon = parameter['btn_icon']
+                _btn_id = parameter['btn_id']
+                _btn_text = parameter['btn_text']
+                _btn_tooltip = parameter['btn_tooltip']
+                _show_top = parameter['show_top']
+                _is_active = parameter['is_active']
+
+                self.menu = PyLeftMenuButton(
+                    self._app_parent,
+                    text = _btn_text,
+                    btn_id = _btn_id,
+                    tooltip_text = _btn_tooltip,
+                    icon_path = _btn_icon,
+                    is_active = _is_active
+                )
+                self.menu.clicked.connect(self.btn_clicked)
+                self.menu.released.connect(self.btn_released)
+
+                # ADD TO LAYOUT
+                if _show_top:
+                    self.top_layout.addWidget(self.menu)
+                else:
+                    self.div_bottom.show()
+                    self.bottom_layout.addWidget(self.menu)
+
+    # LEFT MENU EMIT SIGNALS
+    # ///////////////////////////////////////////////////////////////
+    def btn_clicked(self):
+        self.clicked.emit(self.menu)
+    
+    def btn_released(self):
+        self.released.emit(self.menu)
+
+    # EXPAND / RETRACT LEF MENU
+    # ///////////////////////////////////////////////////////////////
     def toggle_animation(self):
         if self.toggle_button._is_toggle_active:
             self.toggle_button.set_active_toggle(False)
@@ -122,19 +160,16 @@ class PyLeftMenu(QWidget):
         if self.width() == self._minimum_width:
             self.animation.setStartValue(self.width())
             self.animation.setEndValue(self._maximum_width)
-            # ACTIVE
-            self.button.set_active(True)
         else:
             self.animation.setStartValue(self.width())
             self.animation.setEndValue(self._minimum_width)
-            # ACTIVE
-            self.button.set_active(False)
         self.animation.setEasingCurve(QEasingCurve.InOutCubic)
-        self.animation.setDuration(self._duration_time)      
+        self.animation.setDuration(self._duration_time)
         self.animation.start()        
         
 
     # SET APP LAYOUT
+    # ///////////////////////////////////////////////////////////////
     def setup_ui(self):
         # ADD MENU LAYOUT
         self.left_menu_layout = QVBoxLayout(self)

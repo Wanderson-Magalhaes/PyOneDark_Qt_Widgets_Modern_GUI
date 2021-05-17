@@ -29,6 +29,7 @@ class PyLeftMenuButton(QPushButton):
         self,
         app_parent,
         text,
+        btn_id = None,
         tooltip_text = "",
         margin = 4,
         dark_one = "#1b1e23",
@@ -52,6 +53,7 @@ class PyLeftMenuButton(QPushButton):
         self.setCursor(Qt.PointingHandCursor)
         self.setMaximumHeight(50)
         self.setMinimumHeight(50)
+        self.setObjectName(btn_id)
 
         # APP PATH
         app_path = os.path.abspath(os.getcwd())
@@ -170,6 +172,11 @@ class PyLeftMenuButton(QPushButton):
         if not is_active:
             self._set_icon_color = self._icon_color
         self.repaint()
+
+    # RETURN IF IS ACTIVE MENU
+    # ///////////////////////////////////////////////////////////////
+    def is_active(self):
+        return self._is_active
     
     # SET ACTIVE TOGGLE
     # ///////////////////////////////////////////////////////////////
@@ -262,6 +269,7 @@ class PyLeftMenuButton(QPushButton):
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.LeftButton:
             self.change_style(QEvent.MouseButtonRelease)
+        return self.released.emit()
 
     # MOVE TOOLTIP
     # ///////////////////////////////////////////////////////////////
