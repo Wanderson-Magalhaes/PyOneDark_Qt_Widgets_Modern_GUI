@@ -37,6 +37,68 @@ from gui.widgets import *
 # PY WINDOW
 # ///////////////////////////////////////////////////////////////
 class SetupMainWindow:
+
+    # ADD LEFT MENUS
+    # ///////////////////////////////////////////////////////////////
+    add_left_menus = [
+        {
+            "btn_icon" : "icon_home.svg",
+            "btn_id" : "btn_home",
+            "btn_text" : "Home",
+            "btn_tooltip" : "Home page",
+            "show_top" : True,
+            "is_active" : False
+        },
+        {
+            "btn_icon" : "icon_widgets.svg",
+            "btn_id" : "btn_widgets",
+            "btn_text" : "Open Widgets",
+            "btn_tooltip" : "Show custom widgets",
+            "show_top" : True,
+            "is_active" : False
+        },
+        {
+            "btn_icon" : "icon_add_user.svg",
+            "btn_id" : "btn_add_user",
+            "btn_text" : "Add Users",
+            "btn_tooltip" : "Add users",
+            "show_top" : True,
+            "is_active" : False
+        },
+        {
+            "btn_icon" : "icon_file.svg",
+            "btn_id" : "btn_new_file",
+            "btn_text" : "New File",
+            "btn_tooltip" : "Create new file",
+            "show_top" : True,
+            "is_active" : False
+        },
+        {
+            "btn_icon" : "icon_folder_open.svg",
+            "btn_id" : "btn_open_file",
+            "btn_text" : "Open File",
+            "btn_tooltip" : "Open file",
+            "show_top" : True,
+            "is_active" : False
+        },
+        {
+            "btn_icon" : "icon_save.svg",
+            "btn_id" : "btn_save",
+            "btn_text" : "Save File",
+            "btn_tooltip" : "Save file",
+            "show_top" : True,
+            "is_active" : False
+        },
+        {
+            "btn_icon" : "icon_settings.svg",
+            "btn_id" : "btn_settings",
+            "btn_text" : "Settings",
+            "btn_tooltip" : "Open settings",
+            "show_top" : False,
+            "is_active" : False
+        }
+    ]
+
     # SETUP MAIN WINDOW WITH CUSTOM PARAMETERS
     # ///////////////////////////////////////////////////////////////
     def setup(self):

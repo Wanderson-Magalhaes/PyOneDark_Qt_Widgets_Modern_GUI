@@ -22,6 +22,10 @@ import os
 # ///////////////////////////////////////////////////////////////
 from qt_core import *
 
+# IMPORT FUNCTIONS
+# ///////////////////////////////////////////////////////////////
+from gui.core.functions import *
+
 # CUSTOM LEFT MENU
 # ///////////////////////////////////////////////////////////////
 class PyLeftMenuButton(QPushButton):
@@ -43,8 +47,8 @@ class PyLeftMenuButton(QPushButton):
         context_color = "#568af2",
         text_foreground = "#8a95aa",
         text_active = "#dce1ec",
-        icon_path = "gui/images/svg_icons/icon_add_user.svg",
-        icon_active_menu = "gui/images/svg_icons/active_menu.svg",
+        icon_path = "icon_add_user.svg",
+        icon_active_menu = "active_menu.svg",
         is_active = False,
         is_toggle_active = False
     ):
@@ -56,8 +60,8 @@ class PyLeftMenuButton(QPushButton):
         self.setObjectName(btn_id)
 
         # APP PATH
-        app_path = os.path.abspath(os.getcwd())
-        self._icon_path = os.path.normpath(os.path.join(app_path, icon_path))
+        self._icon_path = Functions.set_svg_icon(icon_path)
+        self._icon_active_menu = Functions.set_svg_icon(icon_active_menu)
 
         # PROPERTIES
         self._margin = margin
@@ -70,7 +74,6 @@ class PyLeftMenuButton(QPushButton):
         self._icon_color_hover = icon_color_hover
         self._icon_color_pressed = icon_color_pressed
         self._icon_color_active = icon_color_active
-        self._icon_active_menu = icon_active_menu
         self._set_icon_color = self._icon_color # Set icon color
         self._set_bg_color = self._dark_one # Set BG color
         self._set_text_foreground = text_foreground
@@ -107,10 +110,6 @@ class PyLeftMenuButton(QPushButton):
         rect_blue = QRect(4, 5, 20, self.height() - 10)
         rect_inside_active = QRect(7, 5, self.width(), self.height() - 10)
         rect_text = QRect(45, 0, self.width() - 50, self.height())
-
-        # DRAW DEFAULT BG        
-        p.setBrush(QColor(self._dark_one))
-        p.drawRoundedRect(rect, 0, 0)
 
         if self._is_active:
             # DRAW BG BLUE

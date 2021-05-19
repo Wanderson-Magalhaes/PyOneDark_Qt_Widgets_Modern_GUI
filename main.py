@@ -62,10 +62,14 @@ class MainWindow(QMainWindow):
         self.hide_grips = True # Show/Hide resize grips
         SetupMainWindow.setup(self)
 
-        # GET SIGNALS WHEN LEFT MENU BTN IS CLICKED / RELEASED
+        # LEFT MENUS / GET SIGNALS WHEN LEFT MENU BTN IS CLICKED / RELEASED
         # ///////////////////////////////////////////////////////////////
+        # ADD MENUS
+        self.ui.left_menu.add_menus(SetupMainWindow.add_left_menus)
+
+        # SET SIGNALS
         self.ui.left_menu.clicked.connect(self.left_menu_btn_clicked)
-        self.ui.left_menu.clicked.connect(self.left_menu_btn_released)
+        self.ui.left_menu.released.connect(self.left_menu_btn_released)
 
         # SHOW MAIN WINDOW
         # ///////////////////////////////////////////////////////////////
@@ -103,6 +107,12 @@ class MainWindow(QMainWindow):
     # ///////////////////////////////////////////////////////////////
     def resizeEvent(self, event):
         SetupMainWindow.resize_grips(self)
+
+    # MOUSE CLICK EVENTS
+    # ///////////////////////////////////////////////////////////////
+    def mousePressEvent(self, event):
+        # SET DRAG POS WINDOW
+        self.dragPos = event.globalPos()
 
 
 # SETTINGS WHEN TO START

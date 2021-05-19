@@ -23,6 +23,10 @@ from qt_core import *
 from . py_left_menu_button import PyLeftMenuButton
 from . py_div import PyDiv
 
+# IMPORT FUNCTIONS
+# ///////////////////////////////////////////////////////////////
+from gui.core.functions import *
+
 # PY LEFT MENU
 # ///////////////////////////////////////////////////////////////
 class PyLeftMenu(QWidget):
@@ -43,12 +47,14 @@ class PyLeftMenu(QWidget):
         icon_color_pressed = "#edf0f5",
         icon_color_active = "#f5f6f9",
         context_color = "#568af2",
+        text_foreground = "#8a95aa",
+        text_active = "#dce1ec",
         duration_time = 500,
         radius = 8,
         minimum_width = 50,
         maximum_width = 240,
-        icon_path = "gui/images/svg_icons/icon_menu.svg",
-        icon_path_close = "gui/images/svg_icons/icon_menu_close.svg",
+        icon_path = "icon_menu.svg",
+        icon_path_close = "icon_menu_close.svg",
         toggle_text = "Hide Menu",
         toggle_tooltip = "Expand/Retract menu"
     ):
@@ -56,19 +62,23 @@ class PyLeftMenu(QWidget):
 
         # PROPERTIES
         # ///////////////////////////////////////////////////////////////
-        self._bg_dark_one = dark_one,
-        self._bg_one = bg_one,
-        self._icon_color = icon_color,
-        self._icon_color_hover = icon_color_hover,
-        self._icon_color_pressed = icon_color_pressed,
-        self._icon_color_active = icon_color_active,
+        self._dark_one = dark_one
+        self._dark_three = dark_three
+        self._dark_four = dark_four
+        self._bg_one = bg_one
+        self._icon_color = icon_color
+        self._icon_color_hover = icon_color_hover
+        self._icon_color_pressed = icon_color_pressed
+        self._icon_color_active = icon_color_active
         self._context_color = context_color
+        self._text_foreground = text_foreground
+        self._text_active = text_active
         self._duration_time = duration_time
         self._radius = radius
         self._minimum_width = minimum_width
         self._maximum_width = maximum_width
-        self._icon_path = icon_path
-        self._icon_path_close = icon_path_close
+        self._icon_path = Functions.set_svg_icon(icon_path)
+        self._icon_path_close = Functions.set_svg_icon(icon_path_close)
 
         # SET PARENT
         self._parent = parent
@@ -86,6 +96,17 @@ class PyLeftMenu(QWidget):
             app_parent, 
             text = toggle_text, 
             tooltip_text = toggle_tooltip,
+            dark_one = self._dark_one,
+            dark_three = self._dark_three,
+            dark_four = self._dark_four,
+            bg_one = self._bg_one,
+            icon_color = self._icon_color,
+            icon_color_hover = self._icon_color_active,
+            icon_color_pressed = self._icon_color_pressed,
+            icon_color_active = self._icon_color_active,
+            context_color = self._context_color,
+            text_foreground = self._text_foreground,
+            text_active = self._text_active,
             icon_path = icon_path
         )
         self.toggle_button.clicked.connect(self.toggle_animation)
@@ -124,6 +145,17 @@ class PyLeftMenu(QWidget):
                     text = _btn_text,
                     btn_id = _btn_id,
                     tooltip_text = _btn_tooltip,
+                    dark_one = self._dark_one,
+                    dark_three = self._dark_three,
+                    dark_four = self._dark_four,
+                    bg_one = self._bg_one,
+                    icon_color = self._icon_color,
+                    icon_color_hover = self._icon_color_active,
+                    icon_color_pressed = self._icon_color_pressed,
+                    icon_color_active = self._icon_color_active,
+                    context_color = self._context_color,
+                    text_foreground = self._text_foreground,
+                    text_active = self._text_active,
                     icon_path = _btn_icon,
                     is_active = _is_active
                 )
@@ -148,6 +180,7 @@ class PyLeftMenu(QWidget):
     # EXPAND / RETRACT LEF MENU
     # ///////////////////////////////////////////////////////////////
     def toggle_animation(self):
+        # SELECT TOGGLE WHEN EXPANDED
         if self.toggle_button._is_toggle_active:
             self.toggle_button.set_active_toggle(False)
             self.toggle_button.set_icon(self._icon_path)
@@ -155,6 +188,7 @@ class PyLeftMenu(QWidget):
             self.toggle_button.set_active_toggle(True)
             self.toggle_button.set_icon(self._icon_path_close)
 
+        # CREATE ANIMATION
         self.animation = QPropertyAnimation(self._parent, b"minimumWidth")
         self.animation.stop()
         if self.width() == self._minimum_width:
@@ -168,7 +202,7 @@ class PyLeftMenu(QWidget):
         self.animation.start()        
         
 
-    # SET APP LAYOUT
+    # SETUP APP
     # ///////////////////////////////////////////////////////////////
     def setup_ui(self):
         # ADD MENU LAYOUT

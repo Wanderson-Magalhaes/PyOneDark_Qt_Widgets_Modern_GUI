@@ -113,9 +113,18 @@ class UI_MainWindow(object):
         self.left_menu = PyLeftMenu(
             parent = self.left_menu_frame,
             app_parent = self.central_widget, # For tooltip parent
-            dark_one = self.themes["app_color"]["dark_one"]
+            dark_one = self.themes["app_color"]["dark_one"],
+            dark_three = self.themes["app_color"]["dark_three"],
+            dark_four = self.themes["app_color"]["dark_four"],
+            bg_one = self.themes["app_color"]["bg_one"],
+            icon_color = self.themes["app_color"]["icon_color"],
+            icon_color_hover = self.themes["app_color"]["icon_hover"],
+            icon_color_pressed = self.themes["app_color"]["icon_pressed"],
+            icon_color_active = self.themes["app_color"]["icon_active"],
+            context_color = self.themes["app_color"]["context_color"],
+            text_foreground = self.themes["app_color"]["text_foreground"],
+            text_active = self.themes["app_color"]["text_active"]
         )
-        self.left_menu.add_menus(self.settings["add_menus"])
         self.left_menu_layout.addWidget(self.left_menu)
 
         # ADD LEFT COLUMN
@@ -138,14 +147,18 @@ class UI_MainWindow(object):
         self.right_app_layout.setSpacing(6)
 
         # ADD TITLE BAR FRAME
+        # ///////////////////////////////////////////////////////////////
         self.title_bar_frame = QFrame()
         self.title_bar_frame.setMaximumHeight(40)
         self.title_bar_frame.setMaximumHeight(40)
-        self.title_bar_frame.setStyleSheet("background: #343b48; border-radius: 8px;")
-         # apagar
-        close = QPushButton("Fechar")
-        close.setParent(self.title_bar_frame)
-        close.clicked.connect(lambda: parent.close())
+        self.title_bar_layout = QVBoxLayout(self.title_bar_frame)
+        self.title_bar_layout.setContentsMargins(0,0,0,0)
+        
+        # ADD CUSTOM TITLE BAR TO LAYOUT
+        self.title_bar = PyTitleBar(
+            parent
+        )
+        self.title_bar_layout.addWidget(self.title_bar)
 
         # ADD CONTENT AREA
         self.content_area_frame = QFrame()
