@@ -18,5 +18,10 @@
         "minimum" : 240,
         "maximum" : 240
     },
-    "theme_name": "default"
+    "theme_name" : "default",
+    "font" : {
+        "family" : "Segoe UI",
+        "title_size" : 10,
+        "text_size" : 9
+    }
 }

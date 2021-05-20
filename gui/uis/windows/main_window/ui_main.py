@@ -66,6 +66,10 @@ class UI_MainWindow(object):
         # Add central widget to app
         # ///////////////////////////////////////////////////////////////
         self.central_widget = QWidget()
+        self.central_widget.setStyleSheet(f'''
+            font: {self.settings["font"]["text_size"]}pt "{self.settings["font"]["family"]}";
+            color: {self.themes["app_color"]["text_foreground"]};
+        ''')
         self.central_widget_layout = QVBoxLayout(self.central_widget)
         if self.settings["custom_title_bar"]:
             self.central_widget_layout.setContentsMargins(10,10,10,10)
@@ -81,6 +85,7 @@ class UI_MainWindow(object):
             border_color = self.themes["app_color"]["bg_two"],
             text_color = self.themes["app_color"]["text_foreground"]
         )
+
         
         # If disable custom title bar
         if not self.settings["custom_title_bar"]:
@@ -156,7 +161,11 @@ class UI_MainWindow(object):
         
         # ADD CUSTOM TITLE BAR TO LAYOUT
         self.title_bar = PyTitleBar(
-            parent
+            parent,
+            bg_color = self.themes["app_color"]["bg_two"],
+            div_color = self.themes["app_color"]["bg_three"],
+            font_family = self.settings["font"]["family"],
+            title_size = self.settings["font"]["title_size"]
         )
         self.title_bar_layout.addWidget(self.title_bar)
 

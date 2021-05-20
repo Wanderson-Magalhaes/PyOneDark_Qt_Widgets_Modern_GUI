@@ -260,7 +260,7 @@ class PyLeftMenuButton(QPushButton):
         if event.button() == Qt.LeftButton:
             self.change_style(QEvent.MouseButtonPress)
             self.tooltip.hide()
-        return self.clicked.emit()
+            return self.clicked.emit()
 
     # MOUSE RELEASED
     # Event triggered after the mouse button is released
@@ -268,7 +268,7 @@ class PyLeftMenuButton(QPushButton):
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.LeftButton:
             self.change_style(QEvent.MouseButtonRelease)
-        return self.released.emit()
+            return self.released.emit()
 
     # MOVE TOOLTIP
     # ///////////////////////////////////////////////////////////////

@@ -7,6 +7,7 @@
         "dark_four" : "#272c36",
         "bg_one" : "#2c313c",
         "bg_two" : "#343b48",
+        "bg_three" : "#3c4454",
         "icon_color" : "#c3ccdf",
         "icon_hover" : "#dce1ec",
         "icon_pressed" : "#edf0f5",
