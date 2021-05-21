@@ -30,8 +30,8 @@ from gui.core.functions import *
 # PY LEFT MENU
 # ///////////////////////////////////////////////////////////////
 class PyLeftMenu(QWidget):
-    clicked = Signal(str)
-    released = Signal(str)
+    clicked = Signal(object)
+    released = Signal(object)
 
     def __init__(
         self,

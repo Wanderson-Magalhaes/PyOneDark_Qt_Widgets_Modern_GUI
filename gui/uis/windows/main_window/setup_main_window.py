@@ -55,7 +55,7 @@ class SetupMainWindow:
             "btn_text" : "Open Widgets",
             "btn_tooltip" : "Show custom widgets",
             "show_top" : True,
-            "is_active" : False
+            "is_active" : True
         },
         {
             "btn_icon" : "icon_add_user.svg",

@@ -23,6 +23,8 @@ from qt_core import *
 class PyTitleButton(QPushButton):
     def __init__(
         self,
+        parent,
+        app_parent = None,
         tooltip_text = "",
         width = 30,
         height = 30,
@@ -35,6 +37,9 @@ class PyTitleButton(QPushButton):
         icon_color_pressed = "#edf0f5",
         icon_color_active = "#f5f6f9",
         icon_path = "no_icon.svg",
+        dark_one = "#1b1e23",
+        context_color = "#568af2",
+        text_foreground = "#8a95aa",
         is_active = False
     ):
         super(PyTitleButton, self).__init__()
@@ -51,11 +56,26 @@ class PyTitleButton(QPushButton):
         self._icon_color_hover = icon_color_hover
         self._icon_color_pressed = icon_color_pressed
         self._icon_color_active = icon_color_active
+        self._top_margin = self.height() + 3
         # Set Parameters
         self._set_bg_color = bg_color
         self._set_icon_path = icon_path
         self._set_icon_color = icon_color
         self._set_border_radius = radius
+        # Parent
+        self._parent = parent
+        self._app_parent = app_parent
+
+        # TOOLTIP
+        self._tooltip_text = tooltip_text
+        self._tooltip = _ToolTip(
+            app_parent,
+            tooltip_text,
+            dark_one,
+            context_color,
+            text_foreground
+        )
+        self._tooltip.hide()
 
     # PAINT EVENT
     # painting the button and the icon
@@ -109,15 +129,15 @@ class PyTitleButton(QPushButton):
     # Event triggered when the mouse is over the BTN
     def enterEvent(self, event):
         self.change_style(QEvent.Enter)
-        #self.move_tooltip()
-        #self.tooltip.show()
+        self.move_tooltip()
+        self._tooltip.show()
 
     # MOUSE LEAVE
     # Event fired when the mouse leaves the BTN
     def leaveEvent(self, event):
         self.change_style(QEvent.Leave)
-        #self.move_tooltip()
-        #self.tooltip.hide()
+        self.move_tooltip()
+        self._tooltip.hide()
 
     # MOUSE PRESS
     # Event triggered when the left button is pressed
@@ -150,3 +170,74 @@ class PyTitleButton(QPushButton):
             icon
         )        
         painter.end()
+
+    # SET ICON
+    # ///////////////////////////////////////////////////////////////
+    def set_icon(self, icon_path):
+        self._set_icon_path = icon_path
+        self.repaint()
+
+    # MOVE TOOLTIP
+    # ///////////////////////////////////////////////////////////////
+    def move_tooltip(self):
+        # GET MAIN WINDOW PARENT
+        gp = self.mapToGlobal(QPoint(0, 0))
+
+        # SET WIDGET TO GET POSTION
+        # Return absolute position of widget inside app
+        pos = self._parent.mapFromGlobal(gp)
+
+        # FORMAT POSITION
+        # Adjust tooltip position with offset
+        pos_x = (pos.x() - self._tooltip.width()) + self.width() + 5
+        pos_y = pos.y() + self._top_margin
+
+        # SET POSITION TO WIDGET
+        # Move tooltip position
+        self._tooltip.move(pos_x, pos_y)
+
+class _ToolTip(QLabel):
+    # TOOLTIP / LABEL StyleSheet
+    style_tooltip = """ 
+    QLabel {{		
+        background-color: {_dark_one};	
+        color: {_text_foreground};
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 17px;
+        border: 0px solid transparent;
+        border-right: 3px solid {_context_color};
+        font: 800 9pt "Segoe UI";
+    }}
+    """
+
+    def __init__(
+        self,
+        parent, 
+        tooltip,
+        dark_one,
+        context_color,
+        text_foreground
+    ):
+        QLabel.__init__(self)
+
+        # LABEL SETUP
+        style = self.style_tooltip.format(
+            _dark_one = dark_one,
+            _context_color = context_color,
+            _text_foreground = text_foreground
+        )
+        self.setObjectName(u"label_tooltip")
+        self.setStyleSheet(style)
+        self.setMinimumHeight(34)
+        self.setParent(parent)
+        self.setText(tooltip)
+        self.adjustSize()
+
+        # SET DROP SHADOW
+        self.shadow = QGraphicsDropShadowEffect(self)
+        self.shadow.setBlurRadius(30)
+        self.shadow.setXOffset(0)
+        self.shadow.setYOffset(0)
+        self.shadow.setColor(QColor(0, 0, 0, 80))
+        self.setGraphicsEffect(self.shadow)
