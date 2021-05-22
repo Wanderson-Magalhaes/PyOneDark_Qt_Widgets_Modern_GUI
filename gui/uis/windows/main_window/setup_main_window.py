@@ -99,6 +99,23 @@ class SetupMainWindow:
         }
     ]
 
+     # ADD TITLE BAR MENUS
+    # ///////////////////////////////////////////////////////////////
+    add_title_bar_menus = [
+        {
+            "btn_icon" : "icon_search.svg",
+            "btn_id" : "btn_search",
+            "btn_tooltip" : "Search",
+            "is_active" : False
+        },
+        {
+            "btn_icon" : "icon_more_options.svg",
+            "btn_id" : "btn_top_settings",
+            "btn_tooltip" : "Top settings",
+            "is_active" : False
+        }
+    ]
+
     # SETUP MAIN WINDOW WITH CUSTOM PARAMETERS
     # ///////////////////////////////////////////////////////////////
     def setup(self):

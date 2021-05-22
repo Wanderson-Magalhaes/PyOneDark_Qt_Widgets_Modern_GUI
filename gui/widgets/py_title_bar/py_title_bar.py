@@ -44,6 +44,10 @@ _old_size = QSize()
 # close buttons and extra buttons
 # ///////////////////////////////////////////////////////////////
 class PyTitleBar(QWidget):
+    # SIGNALS
+    clicked = Signal(object)
+    released = Signal(object)
+
     def __init__(
         self,
         parent,
@@ -65,7 +69,8 @@ class PyTitleBar(QWidget):
         text_foreground = "#8a95aa",
         radius = 8,
         font_family = "Segoe UI",
-        title_size = 10
+        title_size = 10,
+        is_custom_title_bar = True,
     ):
         super(PyTitleBar, self).__init__()
 
@@ -89,6 +94,7 @@ class PyTitleBar(QWidget):
         self._font_family = font_family
         self._title_size = title_size
         self._text_foreground = text_foreground
+        self._is_custom_title_bar = is_custom_title_bar
 
         # SETUP UI
         self.setup_ui()
@@ -100,9 +106,6 @@ class PyTitleBar(QWidget):
         self.top_logo.setMinimumWidth(logo_width)
         self.top_logo.setMaximumWidth(logo_width)
         self.top_logo.setPixmap(Functions.set_svg_image(logo_image))
-
-        # ADD TITLE TEXT
-        self.title_label.setText(self.settings["app_name"])
 
         # MOVE WINDOW / MAXIMIZE / RESTORE
         # ///////////////////////////////////////////////////////////////
@@ -121,16 +124,19 @@ class PyTitleBar(QWidget):
                 event.accept()
 
         # MOVE APP WIDGETS
-        self.top_logo.mouseMoveEvent = moveWindow
-        self.div_1.mouseMoveEvent = moveWindow
-        self.title_label.mouseMoveEvent = moveWindow
-        self.div_2.mouseMoveEvent = moveWindow
+        if is_custom_title_bar:
+            self.top_logo.mouseMoveEvent = moveWindow
+            self.div_1.mouseMoveEvent = moveWindow
+            self.title_label.mouseMoveEvent = moveWindow
+            self.div_2.mouseMoveEvent = moveWindow
+            self.div_3.mouseMoveEvent = moveWindow
 
         # MAXIMIZE / RESTORE
-        self.top_logo.mouseDoubleClickEvent = self.maximize_restore
-        self.div_1.mouseDoubleClickEvent = self.maximize_restore
-        self.title_label.mouseDoubleClickEvent = self.maximize_restore
-        self.div_2.mouseDoubleClickEvent = self.maximize_restore
+        if is_custom_title_bar:
+            self.top_logo.mouseDoubleClickEvent = self.maximize_restore
+            self.div_1.mouseDoubleClickEvent = self.maximize_restore
+            self.title_label.mouseDoubleClickEvent = self.maximize_restore
+            self.div_2.mouseDoubleClickEvent = self.maximize_restore
 
         # ADD WIDGETS TO TITLE BAR
         # ///////////////////////////////////////////////////////////////
@@ -145,10 +151,67 @@ class PyTitleBar(QWidget):
         self.minimize_button.released.connect(lambda: parent.showMinimized())
         self.maximize_restore_button.released.connect(lambda: self.maximize_restore())
         self.close_button.released.connect(lambda: parent.close())
+
+        # Extra BTNs layout
+        self.bg_layout.addLayout(self.custom_buttons_layout)
+
         # ADD Buttons
-        self.bg_layout.addWidget(self.minimize_button)
-        self.bg_layout.addWidget(self.maximize_restore_button)
-        self.bg_layout.addWidget(self.close_button)
+        if is_custom_title_bar:            
+            self.bg_layout.addWidget(self.minimize_button)
+            self.bg_layout.addWidget(self.maximize_restore_button)
+            self.bg_layout.addWidget(self.close_button)
+
+    # ADD BUTTONS TO TITLE BAR
+    # Add btns and emit signals
+    # ///////////////////////////////////////////////////////////////
+    def add_menus(self, parameters):
+        if parameters != None and len(parameters) > 0:
+            for parameter in parameters:
+                _btn_icon = Functions.set_svg_icon(parameter['btn_icon'])
+                _btn_id = parameter['btn_id']
+                _btn_tooltip = parameter['btn_tooltip']
+                _is_active = parameter['is_active']
+
+                self.menu = PyTitleButton(
+                    self._parent,
+                    self._app_parent,
+                    btn_id = _btn_id,
+                    tooltip_text = _btn_tooltip,
+                    dark_one = self._dark_one,
+                    bg_color = self._bg_color,
+                    bg_color_hover = self._btn_bg_color_hover,
+                    bg_color_pressed = self._btn_bg_color_pressed,
+                    icon_color = self._icon_color,
+                    icon_color_hover = self._icon_color_active,
+                    icon_color_pressed = self._icon_color_pressed,
+                    icon_color_active = self._icon_color_active,
+                    context_color = self._context_color,
+                    text_foreground = self._text_foreground,
+                    icon_path = _btn_icon,
+                    is_active = _is_active
+                )
+                self.menu.clicked.connect(self.btn_clicked)
+                self.menu.released.connect(self.btn_released)
+
+                # ADD TO LAYOUT
+                self.custom_buttons_layout.addWidget(self.menu)
+
+            # ADD DIV
+            if self._is_custom_title_bar:
+                self.custom_buttons_layout.addWidget(self.div_3)
+
+    # TITLE BAR MENU EMIT SIGNALS
+    # ///////////////////////////////////////////////////////////////
+    def btn_clicked(self):
+        self.clicked.emit(self.menu)
+    
+    def btn_released(self):
+        self.released.emit(self.menu)
+
+    # SET TITLE BAR TEXT
+    # ///////////////////////////////////////////////////////////////
+    def set_title(self, title):
+        self.title_label.setText(title)
 
     # MAXIMIZE / RESTORE
     # maximize and restore parent window
@@ -201,6 +264,7 @@ class PyTitleBar(QWidget):
         # DIVS
         self.div_1 = PyDiv(self._div_color)
         self.div_2 = PyDiv(self._div_color)
+        self.div_3 = PyDiv(self._div_color)
 
         # LEFT FRAME WITH MOVE APP
         self.top_logo = QLabel()
@@ -209,6 +273,11 @@ class PyTitleBar(QWidget):
         self.title_label = QLabel()
         self.title_label.setAlignment(Qt.AlignVCenter)
         self.title_label.setStyleSheet(f'font: {self._title_size}pt "{self._font_family}"')
+
+        # CUSTOM BUTTONS LAYOUT
+        self.custom_buttons_layout = QHBoxLayout()
+        self.custom_buttons_layout.setContentsMargins(0,0,0,0)
+        self.custom_buttons_layout.setSpacing(3)
 
         # MINIMIZE BUTTON
         self.minimize_button = PyTitleButton(

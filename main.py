@@ -71,6 +71,23 @@ class MainWindow(QMainWindow):
         self.ui.left_menu.clicked.connect(self.left_menu_btn_clicked)
         self.ui.left_menu.released.connect(self.left_menu_btn_released)
 
+        # TITLE BAR / ADD EXTRA BUTTONS
+        # ///////////////////////////////////////////////////////////////
+        # ADD MENUS
+        self.ui.title_bar.add_menus(SetupMainWindow.add_title_bar_menus)
+
+        # SET SIGNALS
+        self.ui.title_bar.clicked.connect(self.left_menu_btn_clicked)
+        self.ui.title_bar.released.connect(self.left_menu_btn_released)
+
+        # ADD Title
+        if self.settings["custom_title_bar"]:
+            self.ui.title_bar.set_title(self.settings["app_name"])
+        else:
+            self.ui.title_bar.set_title("Welcome to PyOneDark")
+
+        
+
         # SHOW MAIN WINDOW
         # ///////////////////////////////////////////////////////////////
         self.show()
@@ -79,11 +96,18 @@ class MainWindow(QMainWindow):
     # Run function when btn is clicked
     # Check funtion by object name / btn_id
     # ///////////////////////////////////////////////////////////////
+    def setup_btns(self):
+        if self.ui.title_bar.sender() != None:
+            return self.ui.title_bar.sender()
+        elif self.ui.left_menu.sender() != None:
+            return self.ui.left_menu.sender()
+
     def left_menu_btn_clicked(self):
         # GET BT CLICKED
-        btn = self.ui.left_menu.sender()
+        btn = self.setup_btns()        
 
-        if btn.objectName() == "btn_add_user":
+        # SELECT / DESELECT BTN HOME
+        if btn.objectName() == "btn_home":
             if btn.is_active():
                 btn.set_active(False)
             else:
@@ -98,7 +122,7 @@ class MainWindow(QMainWindow):
     # ///////////////////////////////////////////////////////////////
     def left_menu_btn_released(self):
         # GET BT CLICKED
-        btn = self.ui.left_menu.sender()
+        btn = self.setup_btns()
 
         # DEBUG
         print(f"Button {btn.objectName()}, released!")

@@ -26,6 +26,7 @@ class PyTitleButton(QPushButton):
         parent,
         app_parent = None,
         tooltip_text = "",
+        btn_id = None,
         width = 30,
         height = 30,
         radius = 8,
@@ -47,6 +48,7 @@ class PyTitleButton(QPushButton):
         # SET DEFAULT PARAMETERS
         self.setFixedSize(width, height)
         self.setCursor(Qt.PointingHandCursor)
+        self.setObjectName(btn_id)
 
         # PROPERTIES
         self._bg_color = bg_color
@@ -56,7 +58,8 @@ class PyTitleButton(QPushButton):
         self._icon_color_hover = icon_color_hover
         self._icon_color_pressed = icon_color_pressed
         self._icon_color_active = icon_color_active
-        self._top_margin = self.height() + 3
+        self._context_color = context_color
+        self._top_margin = self.height() + 6
         # Set Parameters
         self._set_bg_color = bg_color
         self._set_icon_path = icon_path
@@ -107,6 +110,7 @@ class PyTitleButton(QPushButton):
 
     # CHANGE STYLES
     # Functions with custom styles
+    # ///////////////////////////////////////////////////////////////
     def change_style(self, event):
         if event == QEvent.Enter:
             self._set_bg_color = self._bg_color_hover
@@ -118,7 +122,7 @@ class PyTitleButton(QPushButton):
             self.repaint()
         elif event == QEvent.MouseButtonPress:            
             self._set_bg_color = self._bg_color_pressed
-            self._set_icon_color = self._icon_color_pressed
+            self._set_icon_color = self._context_color
             self.repaint()
         elif event == QEvent.MouseButtonRelease:
             self._set_bg_color = self._bg_color_hover
@@ -127,6 +131,7 @@ class PyTitleButton(QPushButton):
 
     # MOUSE OVER
     # Event triggered when the mouse is over the BTN
+    # ///////////////////////////////////////////////////////////////
     def enterEvent(self, event):
         self.change_style(QEvent.Enter)
         self.move_tooltip()
@@ -134,6 +139,7 @@ class PyTitleButton(QPushButton):
 
     # MOUSE LEAVE
     # Event fired when the mouse leaves the BTN
+    # ///////////////////////////////////////////////////////////////
     def leaveEvent(self, event):
         self.change_style(QEvent.Leave)
         self.move_tooltip()
@@ -141,6 +147,7 @@ class PyTitleButton(QPushButton):
 
     # MOUSE PRESS
     # Event triggered when the left button is pressed
+    # ///////////////////////////////////////////////////////////////
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
             self.change_style(QEvent.MouseButtonPress)
@@ -151,6 +158,7 @@ class PyTitleButton(QPushButton):
 
     # MOUSE RELEASED
     # Event triggered after the mouse button is released
+    # ///////////////////////////////////////////////////////////////
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.LeftButton:
             self.change_style(QEvent.MouseButtonRelease)
@@ -196,6 +204,8 @@ class PyTitleButton(QPushButton):
         # Move tooltip position
         self._tooltip.move(pos_x, pos_y)
 
+# TOOLTIP
+# ///////////////////////////////////////////////////////////////
 class _ToolTip(QLabel):
     # TOOLTIP / LABEL StyleSheet
     style_tooltip = """ 
@@ -210,7 +220,6 @@ class _ToolTip(QLabel):
         font: 800 9pt "Segoe UI";
     }}
     """
-
     def __init__(
         self,
         parent, 

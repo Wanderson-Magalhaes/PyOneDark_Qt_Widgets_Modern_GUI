@@ -1,5 +1,6 @@
 {
     "app_name": "PyOneDark - Modern GUI",
+    "version" : "1.0.0",
     "custom_title_bar": true,
     "startup_size": [
         1200,

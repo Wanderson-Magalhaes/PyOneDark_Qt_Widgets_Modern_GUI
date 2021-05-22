@@ -30,6 +30,7 @@ from gui.core.functions import *
 # PY LEFT MENU
 # ///////////////////////////////////////////////////////////////
 class PyLeftMenu(QWidget):
+    # SIGNALS
     clicked = Signal(object)
     released = Signal(object)
 
@@ -37,7 +38,6 @@ class PyLeftMenu(QWidget):
         self,
         parent = None,
         app_parent = None,
-        buttons = None,
         dark_one = "#1b1e23",
         dark_three = "#21252d",
         dark_four = "#272c36",
@@ -56,7 +56,7 @@ class PyLeftMenu(QWidget):
         icon_path = "icon_menu.svg",
         icon_path_close = "icon_menu_close.svg",
         toggle_text = "Hide Menu",
-        toggle_tooltip = "Expand/Retract menu"
+        toggle_tooltip = "Show menu"
     ):
         super(PyLeftMenu, self).__init__()
 
@@ -122,10 +122,6 @@ class PyLeftMenu(QWidget):
         self.div_bottom = PyDiv(dark_four)
         self.div_bottom.hide()
         self.bottom_layout.addWidget(self.div_bottom)
-
-        # ADD BUTTONS
-        # ///////////////////////////////////////////////////////////////
-        self.add_menus(buttons)
 
     # ADD BUTTONS TO LEFT MENU
     # Add btns and emit signals

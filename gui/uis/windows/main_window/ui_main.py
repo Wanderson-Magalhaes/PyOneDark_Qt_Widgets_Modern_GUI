@@ -179,6 +179,7 @@ class UI_MainWindow(object):
             radius = 8,
             font_family = self.settings["font"]["family"],
             title_size = self.settings["font"]["title_size"],
+            is_custom_title_bar = self.settings["custom_title_bar"]
         )
         self.title_bar_layout.addWidget(self.title_bar)
 
