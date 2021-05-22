@@ -96,15 +96,9 @@ class MainWindow(QMainWindow):
     # Run function when btn is clicked
     # Check funtion by object name / btn_id
     # ///////////////////////////////////////////////////////////////
-    def setup_btns(self):
-        if self.ui.title_bar.sender() != None:
-            return self.ui.title_bar.sender()
-        elif self.ui.left_menu.sender() != None:
-            return self.ui.left_menu.sender()
-
     def left_menu_btn_clicked(self):
         # GET BT CLICKED
-        btn = self.setup_btns()        
+        btn = SetupMainWindow.setup_btns(self)        
 
         # SELECT / DESELECT BTN HOME
         if btn.objectName() == "btn_home":
@@ -122,7 +116,7 @@ class MainWindow(QMainWindow):
     # ///////////////////////////////////////////////////////////////
     def left_menu_btn_released(self):
         # GET BT CLICKED
-        btn = self.setup_btns()
+        btn = SetupMainWindow.setup_btns(self)
 
         # DEBUG
         print(f"Button {btn.objectName()}, released!")

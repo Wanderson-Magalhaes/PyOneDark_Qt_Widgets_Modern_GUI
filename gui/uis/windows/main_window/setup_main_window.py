@@ -116,6 +116,15 @@ class SetupMainWindow:
         }
     ]
 
+    # SETUP CUSTOM BTNs OF CUSTOM WIDGETS
+    # Get sender() function when btn is clicked
+    # ///////////////////////////////////////////////////////////////
+    def setup_btns(self):
+        if self.ui.title_bar.sender() != None:
+            return self.ui.title_bar.sender()
+        elif self.ui.left_menu.sender() != None:
+            return self.ui.left_menu.sender()
+
     # SETUP MAIN WINDOW WITH CUSTOM PARAMETERS
     # ///////////////////////////////////////////////////////////////
     def setup(self):
