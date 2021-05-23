@@ -60,6 +60,7 @@ class PyTitleButton(QPushButton):
         self._icon_color_active = icon_color_active
         self._context_color = context_color
         self._top_margin = self.height() + 6
+        self._is_active = is_active
         # Set Parameters
         self._set_bg_color = bg_color
         self._set_icon_path = icon_path
@@ -80,6 +81,17 @@ class PyTitleButton(QPushButton):
         )
         self._tooltip.hide()
 
+    # SET ACTIVE MENU
+    # ///////////////////////////////////////////////////////////////
+    def set_active(self, is_active):
+        self._is_active = is_active
+        self.repaint()
+
+    # RETURN IF IS ACTIVE MENU
+    # ///////////////////////////////////////////////////////////////
+    def is_active(self):
+        return self._is_active
+
     # PAINT EVENT
     # painting the button and the icon
     # ///////////////////////////////////////////////////////////////
@@ -89,8 +101,12 @@ class PyTitleButton(QPushButton):
         paint.begin(self)
         paint.setRenderHint(QPainter.RenderHint.Antialiasing)
         
-        # BRUSH
-        brush = QBrush(QColor(self._set_bg_color))
+        if self._is_active:
+            # BRUSH
+            brush = QBrush(QColor(self._bg_color_pressed))
+        else:
+            # BRUSH
+            brush = QBrush(QColor(self._set_bg_color))
 
         # CREATE RECTANGLE
         rect = QRect(0, 0, self.width(), self.height())
@@ -171,7 +187,10 @@ class PyTitleButton(QPushButton):
         icon = QPixmap(image)
         painter = QPainter(icon)
         painter.setCompositionMode(QPainter.CompositionMode_SourceIn)
-        painter.fillRect(icon.rect(), self._set_icon_color)
+        if self._is_active:
+            painter.fillRect(icon.rect(), self._context_color)
+        else:
+            painter.fillRect(icon.rect(), self._set_icon_color)
         qp.drawPixmap(
             (rect.width() - icon.width()) / 2, 
             (rect.height() - icon.height()) / 2,

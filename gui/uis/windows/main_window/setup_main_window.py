@@ -109,10 +109,10 @@ class SetupMainWindow:
             "is_active" : False
         },
         {
-            "btn_icon" : "icon_more_options.svg",
+            "btn_icon" : "icon_settings.svg",
             "btn_id" : "btn_top_settings",
             "btn_tooltip" : "Top settings",
-            "is_active" : False
+            "is_active" : True
         }
     ]
 

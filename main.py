@@ -85,7 +85,6 @@ class MainWindow(QMainWindow):
             self.ui.title_bar.set_title(self.settings["app_name"])
         else:
             self.ui.title_bar.set_title("Welcome to PyOneDark")
-
         
 
         # SHOW MAIN WINDOW
@@ -100,8 +99,16 @@ class MainWindow(QMainWindow):
         # GET BT CLICKED
         btn = SetupMainWindow.setup_btns(self)        
 
+        # LEFT MENU
         # SELECT / DESELECT BTN HOME
         if btn.objectName() == "btn_home":
+            if btn.is_active():
+                btn.set_active(False)
+            else:
+                btn.set_active(True)
+        
+        # TITLE BAR MENU
+        if btn.objectName() == "btn_top_settings":
             if btn.is_active():
                 btn.set_active(False)
             else:
