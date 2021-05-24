@@ -176,23 +176,19 @@ class PyLeftMenu(QWidget):
     # EXPAND / RETRACT LEF MENU
     # ///////////////////////////////////////////////////////////////
     def toggle_animation(self):
-        # SELECT TOGGLE WHEN EXPANDED
-        if self.toggle_button._is_toggle_active:
-            self.toggle_button.set_active_toggle(False)
-            self.toggle_button.set_icon(self._icon_path)
-        else:
-            self.toggle_button.set_active_toggle(True)
-            self.toggle_button.set_icon(self._icon_path_close)
-
         # CREATE ANIMATION
         self.animation = QPropertyAnimation(self._parent, b"minimumWidth")
         self.animation.stop()
         if self.width() == self._minimum_width:
             self.animation.setStartValue(self.width())
             self.animation.setEndValue(self._maximum_width)
+            self.toggle_button.set_active_toggle(True)
+            self.toggle_button.set_icon(self._icon_path_close)
         else:
             self.animation.setStartValue(self.width())
             self.animation.setEndValue(self._minimum_width)
+            self.toggle_button.set_active_toggle(False)
+            self.toggle_button.set_icon(self._icon_path)
         self.animation.setEasingCurve(QEasingCurve.InOutCubic)
         self.animation.setDuration(self._duration_time)
         self.animation.start()        

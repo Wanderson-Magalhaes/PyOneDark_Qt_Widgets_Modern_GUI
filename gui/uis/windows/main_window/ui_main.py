@@ -16,6 +16,7 @@
 
 # IMPORT PACKAGES AND MODULES
 # ///////////////////////////////////////////////////////////////
+from gui.widgets.py_credits_bar.py_credits import PyCredits
 import sys
 
 # IMPORT QT CORE
@@ -184,16 +185,35 @@ class UI_MainWindow(object):
         self.title_bar_layout.addWidget(self.title_bar)
 
         # ADD CONTENT AREA
+        # ///////////////////////////////////////////////////////////////
         self.content_area_frame = QFrame()
         self.content_area_frame.setStyleSheet("background: transparent")
 
         # CREDITS / BOTTOM APP FRAME
+        # ///////////////////////////////////////////////////////////////
         self.credits_frame = QFrame()
         self.credits_frame.setMaximumHeight(26)
         self.credits_frame.setMaximumHeight(26)
-        self.credits_frame.setStyleSheet("background: transparent")
+
+        # CREATE LAYOUT
+        self.credits_layout = QVBoxLayout(self.credits_frame)
+        self.credits_layout.setContentsMargins(0,0,0,0)
+
+        # ADD CUSTOM WIDGET CREDITS
+        self.credits = PyCredits(
+            bg_two = self.themes["app_color"]["bg_two"],
+            copyright = self.settings["copyright"],
+            version = self.settings["version"],
+            font_family = self.settings["font"]["family"],
+            text_size = self.settings["font"]["text_size"],
+            text_description_color = self.themes["app_color"]["text_description"]
+        )
+
+        #  ADD TO LAYOUT
+        self.credits_layout.addWidget(self.credits)
 
         # ADD WIDGETS TO RIGHT LAYOUT
+        # ///////////////////////////////////////////////////////////////
         self.right_app_layout.addWidget(self.title_bar_frame)
         self.right_app_layout.addWidget(self.content_area_frame)
         self.right_app_layout.addWidget(self.credits_frame)

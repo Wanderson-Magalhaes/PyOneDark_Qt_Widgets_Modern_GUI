@@ -1,6 +1,8 @@
 {
     "app_name": "PyOneDark - Modern GUI",
-    "version" : "1.0.0",
+    "version" : "v1.0.0",
+    "copyright" : "By: Wanderson M. Pimenta",
+    "year" : 2021,
     "custom_title_bar": true,
     "startup_size": [
         1200,
