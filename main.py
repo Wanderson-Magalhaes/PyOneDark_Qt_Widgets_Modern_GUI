@@ -16,6 +16,7 @@
 
 # IMPORT PACKAGES AND MODULES
 # ///////////////////////////////////////////////////////////////
+from gui.uis.windows.main_window.functions_main_window import *
 import sys
 import os
 
@@ -68,8 +69,8 @@ class MainWindow(QMainWindow):
         self.ui.left_menu.add_menus(SetupMainWindow.add_left_menus)
 
         # SET SIGNALS
-        self.ui.left_menu.clicked.connect(self.left_menu_btn_clicked)
-        self.ui.left_menu.released.connect(self.left_menu_btn_released)
+        self.ui.left_menu.clicked.connect(self.btn_clicked)
+        self.ui.left_menu.released.connect(self.btn_released)
 
         # TITLE BAR / ADD EXTRA BUTTONS
         # ///////////////////////////////////////////////////////////////
@@ -77,14 +78,18 @@ class MainWindow(QMainWindow):
         self.ui.title_bar.add_menus(SetupMainWindow.add_title_bar_menus)
 
         # SET SIGNALS
-        self.ui.title_bar.clicked.connect(self.left_menu_btn_clicked)
-        self.ui.title_bar.released.connect(self.left_menu_btn_released)
+        self.ui.title_bar.clicked.connect(self.btn_clicked)
+        self.ui.title_bar.released.connect(self.btn_released)
 
         # ADD Title
         if self.settings["custom_title_bar"]:
             self.ui.title_bar.set_title(self.settings["app_name"])
         else:
-            self.ui.title_bar.set_title("Welcome to PyOneDark")        
+            self.ui.title_bar.set_title("Welcome to PyOneDark")
+
+        # SET INITIAL PAGE
+        # ///////////////////////////////////////////////////////////////
+        FunctionsMain.set_page(self, self.ui.load_pages.page_1)
 
         # SHOW MAIN WINDOW
         # ///////////////////////////////////////////////////////////////
@@ -94,24 +99,42 @@ class MainWindow(QMainWindow):
     # Run function when btn is clicked
     # Check funtion by object name / btn_id
     # ///////////////////////////////////////////////////////////////
-    def left_menu_btn_clicked(self):
+    def btn_clicked(self):
         # GET BT CLICKED
-        btn = SetupMainWindow.setup_btns(self)        
+        btn = SetupMainWindow.setup_btns(self)
 
         # LEFT MENU
-        # SELECT / DESELECT BTN HOME
+        # ///////////////////////////////////////////////////////////////
+        
+        # Load Home
         if btn.objectName() == "btn_home":
-            if btn.is_active():
-                btn.set_active(False)
-            else:
-                btn.set_active(True)
+            # Select Menu
+            self.ui.left_menu.select_only_one(btn.objectName())
+
+            # Load Page 1
+            FunctionsMain.set_page(self, self.ui.load_pages.page_1)
+
+        # Load Widgets Page
+        if btn.objectName() == "btn_widgets":
+            # Select Menu
+            self.ui.left_menu.select_only_one(btn.objectName())
+
+            # Load Page 2
+            FunctionsMain.set_page(self, self.ui.load_pages.page_2)
+
+        # Load Add User
+        if btn.objectName() == "btn_add_user":
+            # Select Menu
+            self.ui.left_menu.select_only_one(btn.objectName())
+
+            # Load Page 3 
+            FunctionsMain.set_page(self, self.ui.load_pages.page_3)
         
         # TITLE BAR MENU
+        # ///////////////////////////////////////////////////////////////
         if btn.objectName() == "btn_top_settings":
-            if btn.is_active():
-                btn.set_active(False)
-            else:
-                btn.set_active(True)
+            # Select Menu
+            btn.set_active(False) if btn.is_active() else btn.set_active(True)
 
         # DEBUG
         print(f"Button {btn.objectName()}, clicked!")
@@ -120,7 +143,7 @@ class MainWindow(QMainWindow):
     # Run function when btn is released
     # Check funtion by object name / btn_id
     # ///////////////////////////////////////////////////////////////
-    def left_menu_btn_released(self):
+    def btn_released(self):
         # GET BT CLICKED
         btn = SetupMainWindow.setup_btns(self)
 

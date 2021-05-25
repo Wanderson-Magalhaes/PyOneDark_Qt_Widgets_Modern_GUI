@@ -170,6 +170,8 @@ class PyLeftMenuButton(QPushButton):
         self._is_active = is_active
         if not is_active:
             self._set_icon_color = self._icon_color
+        if not is_active:
+            self._set_bg_color = self._dark_one
         self.repaint()
 
     # RETURN IF IS ACTIVE MENU

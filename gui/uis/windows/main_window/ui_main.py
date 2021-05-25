@@ -17,7 +17,6 @@
 # IMPORT PACKAGES AND MODULES
 # ///////////////////////////////////////////////////////////////
 from gui.widgets.py_credits_bar.py_credits import PyCredits
-import sys
 
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
@@ -39,9 +38,9 @@ from gui.widgets import *
 # ///////////////////////////////////////////////////////////////
 from . setup_main_window import *
 
-# IMPORT FUNCTIONS MAIN WINDOW
+# IMPORT MAIN WINDOW PAGES / AND SIDE BOXES FOR APP
 # ///////////////////////////////////////////////////////////////
-from . functions_main_window import *
+from gui.uis.pages.ui_main_pages import Ui_MainPages
 
 # PY WINDOW
 # ///////////////////////////////////////////////////////////////
@@ -155,7 +154,7 @@ class UI_MainWindow(object):
         # ADD TITLE BAR FRAME
         # ///////////////////////////////////////////////////////////////
         self.title_bar_frame = QFrame()
-        self.title_bar_frame.setMaximumHeight(40)
+        self.title_bar_frame.setMinimumHeight(40)
         self.title_bar_frame.setMaximumHeight(40)
         self.title_bar_layout = QVBoxLayout(self.title_bar_frame)
         self.title_bar_layout.setContentsMargins(0,0,0,0)
@@ -187,12 +186,15 @@ class UI_MainWindow(object):
         # ADD CONTENT AREA
         # ///////////////////////////////////////////////////////////////
         self.content_area_frame = QFrame()
-        self.content_area_frame.setStyleSheet("background: transparent")
+
+        # IMPORT MAIN PAGES TO CONTENT AREA
+        self.load_pages = Ui_MainPages()
+        self.load_pages.setupUi(self.content_area_frame)
 
         # CREDITS / BOTTOM APP FRAME
         # ///////////////////////////////////////////////////////////////
         self.credits_frame = QFrame()
-        self.credits_frame.setMaximumHeight(26)
+        self.credits_frame.setMinimumHeight(26)
         self.credits_frame.setMaximumHeight(26)
 
         # CREATE LAYOUT

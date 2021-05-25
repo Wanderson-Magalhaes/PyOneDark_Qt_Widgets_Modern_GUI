@@ -191,8 +191,22 @@ class PyLeftMenu(QWidget):
             self.toggle_button.set_icon(self._icon_path)
         self.animation.setEasingCurve(QEasingCurve.InOutCubic)
         self.animation.setDuration(self._duration_time)
-        self.animation.start()        
-        
+        self.animation.start()
+
+    # SELECT ONLY ONE BTN
+    # ///////////////////////////////////////////////////////////////
+    def select_only_one(self, widget: str):
+        for btn in self.findChildren(QPushButton):
+            if btn.objectName() == widget:
+                btn.set_active(True)
+            else:
+                btn.set_active(False)
+
+    # DESELECT ALL BTNs
+    # ///////////////////////////////////////////////////////////////
+    def deselect_all(self):
+        for btn in self.findChildren(QPushButton):
+            btn.set_active(False)
 
     # SETUP APP
     # ///////////////////////////////////////////////////////////////
