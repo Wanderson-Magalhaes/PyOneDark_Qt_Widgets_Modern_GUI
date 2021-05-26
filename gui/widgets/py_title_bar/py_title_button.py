@@ -138,7 +138,7 @@ class PyTitleButton(QPushButton):
             self.repaint()
         elif event == QEvent.MouseButtonPress:            
             self._set_bg_color = self._bg_color_pressed
-            self._set_icon_color = self._context_color
+            self._set_icon_color = self._icon_color_pressed
             self.repaint()
         elif event == QEvent.MouseButtonRelease:
             self._set_bg_color = self._bg_color_hover

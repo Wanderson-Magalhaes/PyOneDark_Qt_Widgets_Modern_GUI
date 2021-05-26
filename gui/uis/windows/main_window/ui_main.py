@@ -60,7 +60,8 @@ class UI_MainWindow(object):
         self.themes = themes.items
 
         # SET INITIAL PARAMETERS
-        parent.setMinimumSize(self.settings["startup_size"][0], self.settings["startup_size"][1])
+        parent.resize(self.settings["startup_size"][0], self.settings["startup_size"][1])
+        parent.setMinimumSize(self.settings["minimum_size"][0], self.settings["minimum_size"][1])
 
         # SET CENTRAL WIDGET
         # Add central widget to app
@@ -85,7 +86,6 @@ class UI_MainWindow(object):
             border_color = self.themes["app_color"]["bg_two"],
             text_color = self.themes["app_color"]["text_foreground"]
         )
-
         
         # If disable custom title bar
         if not self.settings["custom_title_bar"]:
@@ -135,7 +135,7 @@ class UI_MainWindow(object):
         # ADD LEFT COLUMN
         # Add here the left column with Stacked Widgets
         # ///////////////////////////////////////////////////////////////
-        left_column_minimum = self.settings["lef_column_size"]["minimum"]
+        left_column_minimum = self.settings["left_column_size"]["minimum"]
         self.left_column_frame = QFrame()
         self.left_column_frame.setMaximumSize(left_column_minimum, 17280)
         self.left_column_frame.setMinimumSize(left_column_minimum, 0)
@@ -187,9 +187,44 @@ class UI_MainWindow(object):
         # ///////////////////////////////////////////////////////////////
         self.content_area_frame = QFrame()
 
+        # CREATE LAYOUT
+        self.content_area_layout = QHBoxLayout(self.content_area_frame)
+        self.content_area_layout.setContentsMargins(0,0,0,0)
+        self.content_area_layout.setSpacing(0)
+
+        # LEFT CONTENT
+        self.content_area_left_frame = QFrame()
+
         # IMPORT MAIN PAGES TO CONTENT AREA
         self.load_pages = Ui_MainPages()
-        self.load_pages.setupUi(self.content_area_frame)
+        self.load_pages.setupUi(self.content_area_left_frame)
+
+        # RIGHT BAR
+        self.content_area_right_frame = QFrame()
+        self.content_area_right_frame.setMinimumWidth(self.settings["right_column_size"]["minimum"])
+        self.content_area_right_frame.setMaximumWidth(self.settings["right_column_size"]["maximum"])
+
+        # IMPORT RIGHT COLUMN
+        self.content_area_right_layout = QVBoxLayout(self.content_area_right_frame)
+        self.content_area_right_layout.setContentsMargins(5,5,5,5)
+        self.content_area_right_layout.setSpacing(0)
+
+        # RIGHT BG
+        self.content_area_right_bg_frame = QFrame()
+        self.content_area_right_bg_frame.setObjectName("content_area_right_bg_frame")
+        self.content_area_right_bg_frame.setStyleSheet(f'''
+        #content_area_right_bg_frame {{
+            border-radius: 8px;
+            background-color: {self.themes["app_color"]["bg_two"]};
+        }}
+        ''')
+
+        # ADD BG
+        self.content_area_right_layout.addWidget(self.content_area_right_bg_frame)
+
+        # ADD TO LAYOUTS
+        self.content_area_layout.addWidget(self.content_area_left_frame)
+        self.content_area_layout.addWidget(self.content_area_right_frame)
 
         # CREDITS / BOTTOM APP FRAME
         # ///////////////////////////////////////////////////////////////

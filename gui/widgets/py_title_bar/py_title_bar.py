@@ -328,7 +328,7 @@ class PyTitleBar(QWidget):
             bg_color_pressed = self._context_color,
             icon_color = self._icon_color,
             icon_color_hover = self._icon_color_hover,
-            icon_color_pressed = self._icon_color_pressed,
+            icon_color_pressed = self._icon_color_active,
             icon_color_active = self._icon_color_active,
             context_color = self._context_color,
             text_foreground = self._text_foreground,

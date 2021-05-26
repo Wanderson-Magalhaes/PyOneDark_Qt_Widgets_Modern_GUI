@@ -3,6 +3,7 @@
     "version" : "v1.0.0",
     "copyright" : "By: Wanderson M. Pimenta",
     "year" : 2021,
+    "theme_name" : "default",
     "custom_title_bar": true,
     "startup_size": [
         1200,
@@ -17,11 +18,14 @@
         "maximum" : 240
     },
     "left_menu_content_margins" : 3,
-    "lef_column_size" : {
+    "left_column_size" : {
         "minimum" : 240,
         "maximum" : 240
     },
-    "theme_name" : "default",
+    "right_column_size" : {
+        "minimum" : 240,
+        "maximum" : 240
+    },
     "font" : {
         "family" : "Segoe UI",
         "title_size" : 10,
