@@ -29,7 +29,7 @@ class PyGrips(QWidget):
 
         # SETUP UI
         # ///////////////////////////////////////////////////////////////
-        QWidget.__init__(self)
+        super().__init__()
         self.parent = parent
         self.setParent(parent)
         self.wi = Widgets()

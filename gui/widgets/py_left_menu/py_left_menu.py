@@ -58,7 +58,7 @@ class PyLeftMenu(QWidget):
         toggle_text = "Hide Menu",
         toggle_tooltip = "Show menu"
     ):
-        super(PyLeftMenu, self).__init__()
+        super().__init__()
 
         # PROPERTIES
         # ///////////////////////////////////////////////////////////////

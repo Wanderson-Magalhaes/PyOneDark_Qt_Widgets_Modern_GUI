@@ -32,7 +32,7 @@ class PyCredits(QWidget):
         radius = 8,
         padding = 10
     ):
-        super(PyCredits, self).__init__()
+        super().__init__()
 
         # PROPERTIES
         self._copyright = copyright

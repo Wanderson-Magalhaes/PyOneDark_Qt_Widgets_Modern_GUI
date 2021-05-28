@@ -141,6 +141,18 @@ class UI_MainWindow(object):
         self.left_column_frame.setMinimumSize(left_column_minimum, 0)
         self.left_column_frame.setStyleSheet(f"background: {self.themes['app_color']['bg_two']}")
 
+        # ADD LAYOUT TO LEFT COLUMN
+        self.left_column_layout = QVBoxLayout(self.left_column_frame)
+        self.left_column_layout.setContentsMargins(0,0,0,0)
+
+        # ADD CUSTOM LEFT MENU WIDGET
+        self.left_column = PyLeftColumn(
+            text_title = "Custom Column",
+            icon = "teste",
+            bg_color = self.themes['app_color']['context_color']
+        )
+        self.left_column_layout.addWidget(self.left_column)
+
         # ADD RIGHT WIDGETS
         # Add here the right widgets
         # ///////////////////////////////////////////////////////////////

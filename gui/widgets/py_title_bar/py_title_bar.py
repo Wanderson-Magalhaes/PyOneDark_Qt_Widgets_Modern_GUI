@@ -72,7 +72,7 @@ class PyTitleBar(QWidget):
         title_size = 10,
         is_custom_title_bar = True,
     ):
-        super(PyTitleBar, self).__init__()
+        super().__init__()
 
         settings = Settings()
         self.settings = settings.items

@@ -22,7 +22,7 @@ from qt_core import *
 # ///////////////////////////////////////////////////////////////
 class PyDiv(QWidget):
     def __init__(self, color):
-        super(PyDiv, self).__init__()
+        super().__init__()
 
         self.layout = QHBoxLayout(self)
         self.layout.setContentsMargins(0,5,0,5)

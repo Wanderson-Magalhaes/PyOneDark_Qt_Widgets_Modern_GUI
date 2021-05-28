@@ -52,7 +52,7 @@ class PyLeftMenuButton(QPushButton):
         is_active = False,
         is_toggle_active = False
     ):
-        super(PyLeftMenuButton, self).__init__()
+        super().__init__()
         self.setText(text)
         self.setCursor(Qt.PointingHandCursor)
         self.setMaximumHeight(50)

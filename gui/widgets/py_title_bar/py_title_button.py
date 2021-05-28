@@ -43,7 +43,7 @@ class PyTitleButton(QPushButton):
         text_foreground = "#8a95aa",
         is_active = False
     ):
-        super(PyTitleButton, self).__init__()
+        super().__init__()
         
         # SET DEFAULT PARAMETERS
         self.setFixedSize(width, height)

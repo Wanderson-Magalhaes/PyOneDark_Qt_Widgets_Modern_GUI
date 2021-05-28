@@ -46,7 +46,7 @@ class PyWindow(QFrame):
         border_color = "#343b48",
         enable_shadow = True
     ):
-        super(PyWindow, self).__init__()
+        super().__init__()
 
         # LOAD SETTINGS
         # ///////////////////////////////////////////////////////////////
