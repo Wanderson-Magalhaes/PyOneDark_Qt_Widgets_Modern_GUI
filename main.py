@@ -45,7 +45,7 @@ os.environ["QT_FONT_DPI"] = "96"
 # ///////////////////////////////////////////////////////////////
 class MainWindow(QMainWindow):
     def __init__(self):
-        QMainWindow.__init__(self)
+        super().__init__()
 
         # SETUP MAIN WINDOw
         # Load widgets from "gui\uis\main_window\ui_main.py"

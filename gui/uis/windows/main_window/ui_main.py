@@ -16,6 +16,7 @@
 
 # IMPORT PACKAGES AND MODULES
 # ///////////////////////////////////////////////////////////////
+from gui.core.functions import Functions
 from gui.widgets.py_credits_bar.py_credits import PyCredits
 
 # IMPORT QT CORE
@@ -41,6 +42,10 @@ from . setup_main_window import *
 # IMPORT MAIN WINDOW PAGES / AND SIDE BOXES FOR APP
 # ///////////////////////////////////////////////////////////////
 from gui.uis.pages.ui_main_pages import Ui_MainPages
+
+# RIGHT COLUMN
+# ///////////////////////////////////////////////////////////////
+from gui.uis.columns.ui_right_column import Ui_RightColumn
 
 # PY WINDOW
 # ///////////////////////////////////////////////////////////////
@@ -147,9 +152,21 @@ class UI_MainWindow(object):
 
         # ADD CUSTOM LEFT MENU WIDGET
         self.left_column = PyLeftColumn(
-            text_title = "Custom Column",
-            icon = "teste",
-            bg_color = self.themes['app_color']['context_color']
+            parent,
+            app_parent = self.central_widget,
+            text_title = "Settings Left Frame",
+            text_title_size = self.settings["font"]["title_size"],
+            text_title_color = self.themes['app_color']['text_foreground'],
+            icon_path = Functions.set_svg_icon("icon_settings.svg"),
+            dark_one = self.themes['app_color']['dark_one'],
+            bg_color = self.themes['app_color']['bg_three'],
+            btn_color = self.themes['app_color']['bg_three'],
+            btn_color_hover = self.themes['app_color']['bg_two'],
+            btn_color_pressed = self.themes['app_color']['bg_one'],
+            icon_color = self.themes['app_color']['icon_color'],
+            icon_color_hover = self.themes['app_color']['icon_hover'],
+            icon_color_pressed = self.themes['app_color']['icon_pressed'],
+            icon_close_path = Functions.set_svg_icon("icon_close.svg")
         )
         self.left_column_layout.addWidget(self.left_column)
 
@@ -174,6 +191,7 @@ class UI_MainWindow(object):
         # ADD CUSTOM TITLE BAR TO LAYOUT
         self.title_bar = PyTitleBar(
             parent,
+            logo_width = 100,
             app_parent = self.central_widget,
             logo_image = "logo_top_100x22.svg",
             bg_color = self.themes["app_color"]["bg_two"],
@@ -217,6 +235,7 @@ class UI_MainWindow(object):
         self.content_area_right_frame.setMaximumWidth(self.settings["right_column_size"]["maximum"])
 
         # IMPORT RIGHT COLUMN
+        # ///////////////////////////////////////////////////////////////
         self.content_area_right_layout = QVBoxLayout(self.content_area_right_frame)
         self.content_area_right_layout.setContentsMargins(5,5,5,5)
         self.content_area_right_layout.setSpacing(0)
@@ -233,6 +252,10 @@ class UI_MainWindow(object):
 
         # ADD BG
         self.content_area_right_layout.addWidget(self.content_area_right_bg_frame)
+
+        # ADD RIGHT PAGES TO RIGHT COLUMN
+        self.right_column = Ui_RightColumn()
+        self.right_column.setupUi(self.content_area_right_bg_frame)
 
         # ADD TO LAYOUTS
         self.content_area_layout.addWidget(self.content_area_left_frame)

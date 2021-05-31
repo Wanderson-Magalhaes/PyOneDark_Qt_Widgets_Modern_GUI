@@ -16,6 +16,7 @@
 
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
+from PySide6 import QtSvgWidgets
 from qt_core import *
 
 # IMPORT FUNCTIONS
@@ -78,6 +79,7 @@ class PyTitleBar(QWidget):
         self.settings = settings.items
 
         # PARAMETERS
+        self._logo_image = logo_image
         self._dark_one = dark_one
         self._bg_color = bg_color
         self._div_color = div_color
@@ -105,7 +107,7 @@ class PyTitleBar(QWidget):
         # SET LOGO AND WIDTH
         self.top_logo.setMinimumWidth(logo_width)
         self.top_logo.setMaximumWidth(logo_width)
-        self.top_logo.setPixmap(Functions.set_svg_image(logo_image))
+        #self.top_logo.setPixmap(Functions.set_svg_image(logo_image))
 
         # MOVE WINDOW / MAXIMIZE / RESTORE
         # ///////////////////////////////////////////////////////////////
@@ -268,6 +270,11 @@ class PyTitleBar(QWidget):
 
         # LEFT FRAME WITH MOVE APP
         self.top_logo = QLabel()
+        self.top_logo_layout = QVBoxLayout(self.top_logo)
+        self.top_logo_layout.setContentsMargins(0,0,0,0)
+        self.logo_svg = QSvgWidget()
+        self.logo_svg.load(Functions.set_svg_image(self._logo_image))
+        self.top_logo_layout.addWidget(self.logo_svg, Qt.AlignCenter, Qt.AlignCenter)
 
         # TITLE LABEL
         self.title_label = QLabel()
