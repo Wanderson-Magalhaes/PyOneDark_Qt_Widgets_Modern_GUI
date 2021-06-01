@@ -27,6 +27,10 @@ from . py_left_button import *
 from gui.uis.columns.ui_left_column import Ui_LeftColumn
 
 class PyLeftColumn(QWidget):
+    # SIGNALS
+    clicked = Signal(object)
+    released = Signal(object)
+
     def __init__(
         self,
         parent,
@@ -70,9 +74,23 @@ class PyLeftColumn(QWidget):
         self.setup_ui()
 
         # ADD LEFT COLUMN TO BG FRAME
-        self.left_column = Ui_LeftColumn()
-        self.left_column.setupUi(self.content_frame)
+        self.menus = Ui_LeftColumn()
+        self.menus.setupUi(self.content_frame)
 
+        # CONNECT SIGNALS
+        self.btn_close.clicked.connect(self.btn_clicked)
+        self.btn_close.released.connect(self.btn_released)
+
+    # TITLE LEFT COLUMN EMIT SIGNALS
+    # ///////////////////////////////////////////////////////////////
+    def btn_clicked(self):
+        self.clicked.emit(self.btn_close)
+    
+    def btn_released(self):
+        self.released.emit(self.btn_close)
+
+    # WIDGETS
+    # ///////////////////////////////////////////////////////////////
     def setup_ui(self):
         # BASE LAYOUT
         self.base_layout = QVBoxLayout(self)
@@ -148,7 +166,7 @@ class PyLeftColumn(QWidget):
             radius = 6,
         )
         self.btn_close.setParent(self.btn_frame)
-
+        self.btn_close.setObjectName("btn_close_left_column")
 
         # ADD TO TITLE LAYOUT
         self.title_bg_layout.addWidget(self.icon_frame)

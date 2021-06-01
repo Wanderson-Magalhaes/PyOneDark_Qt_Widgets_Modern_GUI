@@ -34,9 +34,20 @@ from gui.core.json_themes import Themes
 # ///////////////////////////////////////////////////////////////
 from gui.widgets import *
 
+# LOAD UI MAIN
+# ///////////////////////////////////////////////////////////////
+from . ui_main import *
+
 # PY WINDOW
 # ///////////////////////////////////////////////////////////////
 class SetupMainWindow:
+    def __init__(self):
+        super().__init__()
+        # SETUP MAIN WINDOw
+        # Load widgets from "gui\uis\main_window\ui_main.py"
+        # ///////////////////////////////////////////////////////////////
+        self.ui = UI_MainWindow()
+        self.ui.setup_ui(self)
 
     # ADD LEFT MENUS
     # ///////////////////////////////////////////////////////////////
@@ -112,7 +123,7 @@ class SetupMainWindow:
             "btn_icon" : "icon_settings.svg",
             "btn_id" : "btn_top_settings",
             "btn_tooltip" : "Top settings",
-            "is_active" : True
+            "is_active" : False
         }
     ]
 
@@ -124,10 +135,12 @@ class SetupMainWindow:
             return self.ui.title_bar.sender()
         elif self.ui.left_menu.sender() != None:
             return self.ui.left_menu.sender()
+        elif self.ui.left_column.sender() != None:
+            return self.ui.left_column.sender()
 
     # SETUP MAIN WINDOW WITH CUSTOM PARAMETERS
     # ///////////////////////////////////////////////////////////////
-    def setup(self):
+    def setup_gui(self):
         # APP TITLE
         # ///////////////////////////////////////////////////////////////
         self.setWindowTitle(self.settings["app_name"])

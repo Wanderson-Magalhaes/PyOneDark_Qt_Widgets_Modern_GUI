@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
         # SETUP MAIN WINDOW
         # ///////////////////////////////////////////////////////////////
         self.hide_grips = True # Show/Hide resize grips
-        SetupMainWindow.setup(self)
+        SetupMainWindow.setup_gui(self)
 
         # LEFT MENUS / GET SIGNALS WHEN LEFT MENU BTN IS CLICKED / RELEASED
         # ///////////////////////////////////////////////////////////////
@@ -87,9 +87,21 @@ class MainWindow(QMainWindow):
         else:
             self.ui.title_bar.set_title("Welcome to PyOneDark")
 
-        # SET INITIAL PAGE
+        # LEFT COLUMN SET SIGNALS
         # ///////////////////////////////////////////////////////////////
-        FunctionsMain.set_page(self, self.ui.load_pages.page_1)
+        self.ui.left_column.clicked.connect(self.btn_clicked)
+        self.ui.left_column.released.connect(self.btn_released)
+
+        # SET INITIAL PAGE / SET LEFT AND RIGHT COLUMN MENUS
+        # ///////////////////////////////////////////////////////////////
+        MainFunctions.set_page(self, self.ui.load_pages.page_1)
+        MainFunctions.set_left_column_menu(
+            self,
+            menu = self.ui.left_column.menus.menu_1,
+            title = "Settings Left Column",
+            icon_path = Functions.set_svg_icon("icon_settings.svg")
+        )
+        MainFunctions.set_right_column_menu(self, self.ui.right_column.menu_1)
 
         # SHOW MAIN WINDOW
         # ///////////////////////////////////////////////////////////////
@@ -112,7 +124,7 @@ class MainWindow(QMainWindow):
             self.ui.left_menu.select_only_one(btn.objectName())
 
             # Load Page 1
-            FunctionsMain.set_page(self, self.ui.load_pages.page_1)
+            MainFunctions.set_page(self, self.ui.load_pages.page_1)
 
         # Load Widgets Page
         if btn.objectName() == "btn_widgets":
@@ -120,7 +132,8 @@ class MainWindow(QMainWindow):
             self.ui.left_menu.select_only_one(btn.objectName())
 
             # Load Page 2
-            FunctionsMain.set_page(self, self.ui.load_pages.page_2)
+            MainFunctions.set_page(self, self.ui.load_pages.page_2)
+            MainFunctions.set_right_column_menu(self, self.ui.right_column.menu_1)
 
         # Load Add User
         if btn.objectName() == "btn_add_user":
@@ -128,13 +141,68 @@ class MainWindow(QMainWindow):
             self.ui.left_menu.select_only_one(btn.objectName())
 
             # Load Page 3 
-            FunctionsMain.set_page(self, self.ui.load_pages.page_3)
+            MainFunctions.set_page(self, self.ui.load_pages.page_3)
+
+            # Change Left Column Menu
+            MainFunctions.set_left_column_menu(
+                self, 
+                menu = self.ui.left_column.menus.menu_2,
+                title = "Add Users",
+                icon_path = Functions.set_svg_icon("icon_settings.svg")
+            )
+
+        # Settings Left
+        if btn.objectName() == "btn_settings" or btn.objectName() == "btn_close_left_column":
+            # Toogle Active
+            if not MainFunctions.left_column_is_visible(self):
+                btn.set_active(True)
+
+                # Show / Hide
+                MainFunctions.toggle_left_column(self)
+            else:
+                btn.set_active(False)
+
+                # Show / Hide
+                MainFunctions.toggle_left_column(self)
+
+            # Remove Selection If Clicked By "btn_close_left_column"
+            if btn.objectName() != "btn_settings":
+                btn_settings = MainFunctions.get_left_menu_btn(self, "btn_settings")
+                btn_settings.set_active(False)
+
+            # Get Title Bar Btn            
+            top_settings = MainFunctions.get_title_bar_btn(self, "btn_top_settings")
+            top_settings.set_active(False)
+
+            # Change Left Column Menu
+            MainFunctions.set_left_column_menu(
+                self, 
+                menu = self.ui.left_column.menus.menu_1,
+                title = "Settings Left Column",
+                icon_path = Functions.set_svg_icon("icon_settings.svg")
+            )
         
         # TITLE BAR MENU
         # ///////////////////////////////////////////////////////////////
         if btn.objectName() == "btn_top_settings":
-            # Select Menu
-            btn.set_active(False) if btn.is_active() else btn.set_active(True)
+            # Toogle Active
+            if not MainFunctions.right_column_is_visible(self):
+                btn.set_active(True)
+
+                # Show / Hide
+                MainFunctions.toggle_right_column(self)
+            else:
+                btn.set_active(False)
+
+                # Show / Hide
+                MainFunctions.toggle_right_column(self)
+
+            # Get Left Menu Btn            
+            top_settings = MainFunctions.get_left_menu_btn(self, "btn_settings")
+            top_settings.set_active(False)
+
+            
+            
 
         # DEBUG
         print(f"Button {btn.objectName()}, clicked!")

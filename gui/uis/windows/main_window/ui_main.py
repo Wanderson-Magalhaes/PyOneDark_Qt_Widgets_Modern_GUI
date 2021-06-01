@@ -140,10 +140,9 @@ class UI_MainWindow(object):
         # ADD LEFT COLUMN
         # Add here the left column with Stacked Widgets
         # ///////////////////////////////////////////////////////////////
-        left_column_minimum = self.settings["left_column_size"]["minimum"]
         self.left_column_frame = QFrame()
-        self.left_column_frame.setMaximumSize(left_column_minimum, 17280)
-        self.left_column_frame.setMinimumSize(left_column_minimum, 0)
+        self.left_column_frame.setMaximumWidth(self.settings["left_column_size"]["minimum"])
+        self.left_column_frame.setMinimumWidth(self.settings["left_column_size"]["minimum"])
         self.left_column_frame.setStyleSheet(f"background: {self.themes['app_color']['bg_two']}")
 
         # ADD LAYOUT TO LEFT COLUMN
@@ -230,13 +229,13 @@ class UI_MainWindow(object):
         self.load_pages.setupUi(self.content_area_left_frame)
 
         # RIGHT BAR
-        self.content_area_right_frame = QFrame()
-        self.content_area_right_frame.setMinimumWidth(self.settings["right_column_size"]["minimum"])
-        self.content_area_right_frame.setMaximumWidth(self.settings["right_column_size"]["maximum"])
+        self.right_column_frame = QFrame()
+        self.right_column_frame.setMinimumWidth(self.settings["right_column_size"]["minimum"])
+        self.right_column_frame.setMaximumWidth(self.settings["right_column_size"]["minimum"])
 
         # IMPORT RIGHT COLUMN
         # ///////////////////////////////////////////////////////////////
-        self.content_area_right_layout = QVBoxLayout(self.content_area_right_frame)
+        self.content_area_right_layout = QVBoxLayout(self.right_column_frame)
         self.content_area_right_layout.setContentsMargins(5,5,5,5)
         self.content_area_right_layout.setSpacing(0)
 
@@ -259,7 +258,7 @@ class UI_MainWindow(object):
 
         # ADD TO LAYOUTS
         self.content_area_layout.addWidget(self.content_area_left_frame)
-        self.content_area_layout.addWidget(self.content_area_right_frame)
+        self.content_area_layout.addWidget(self.right_column_frame)
 
         # CREDITS / BOTTOM APP FRAME
         # ///////////////////////////////////////////////////////////////

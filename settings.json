@@ -19,13 +19,14 @@
     },
     "left_menu_content_margins" : 3,
     "left_column_size" : {
-        "minimum" : 240,
+        "minimum" : 0,
         "maximum" : 240
     },
     "right_column_size" : {
-        "minimum" : 240,
+        "minimum" : 0,
         "maximum" : 240
     },
+    "time_animation" : 500,
     "font" : {
         "family" : "Segoe UI",
         "title_size" : 10,

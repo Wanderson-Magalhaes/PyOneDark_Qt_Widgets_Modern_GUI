@@ -235,7 +235,7 @@ class PyLeftMenu(QWidget):
 
         # BOTTOM LAYOUT
         self.bottom_layout = QVBoxLayout(self.bottom_frame)
-        self.bottom_layout.setContentsMargins(0,0,0,0)
+        self.bottom_layout.setContentsMargins(0,0,0,8)
         self.bottom_layout.setSpacing(1)
 
         # ADD TOP AND BOTTOM FRAME
