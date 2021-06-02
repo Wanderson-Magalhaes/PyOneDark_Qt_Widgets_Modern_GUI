@@ -101,6 +101,14 @@ class SetupMainWindow:
             "is_active" : False
         },
         {
+            "btn_icon" : "icon_widgets.svg",
+            "btn_id" : "btn_info",
+            "btn_text" : "Information",
+            "btn_tooltip" : "Open informations",
+            "show_top" : False,
+            "is_active" : False
+        },
+        {
             "btn_icon" : "icon_settings.svg",
             "btn_id" : "btn_settings",
             "btn_text" : "Settings",

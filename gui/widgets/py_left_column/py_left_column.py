@@ -22,6 +22,10 @@ from qt_core import *
 # ///////////////////////////////////////////////////////////////
 from . py_left_button import *
 
+# IMPORT ICON
+# ///////////////////////////////////////////////////////////////
+from . py_icon import *
+
 # IMPORT LEFT COLUMN
 # ///////////////////////////////////////////////////////////////
 from gui.uis.columns.ui_left_column import Ui_LeftColumn
@@ -120,6 +124,7 @@ class PyLeftColumn(QWidget):
         # LAYOUT TITLE BG
         self.title_bg_layout = QHBoxLayout(self.title_bg_frame)
         self.title_bg_layout.setContentsMargins(5,5,5,5)
+        self.title_bg_layout.setSpacing(3)
 
         # ICON
         self.icon_frame = QFrame()
@@ -128,7 +133,7 @@ class PyLeftColumn(QWidget):
         self.icon_layout = QVBoxLayout(self.icon_frame)
         self.icon_layout.setContentsMargins(0,0,0,0)
         self.icon_layout.setSpacing(5)
-        self.icon = QSvgWidget(self._icon_path)
+        self.icon = PyIcon(self._icon_path, self._icon_color)
         self.icon_layout.addWidget(self.icon, Qt.AlignCenter, Qt.AlignCenter)
 
         # LABEL

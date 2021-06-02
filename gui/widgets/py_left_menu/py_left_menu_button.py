@@ -50,6 +50,7 @@ class PyLeftMenuButton(QPushButton):
         icon_path = "icon_add_user.svg",
         icon_active_menu = "active_menu.svg",
         is_active = False,
+        is_active_tab = False,
         is_toggle_active = False
     ):
         super().__init__()
@@ -80,6 +81,7 @@ class PyLeftMenuButton(QPushButton):
         self._set_text_active = text_active
         self._parent = app_parent
         self._is_active = is_active
+        self._is_active_tab = is_active_tab
         self._is_toggle_active = is_toggle_active
 
         # TOOLTIP
@@ -134,6 +136,29 @@ class PyLeftMenuButton(QPushButton):
             # DRAW ICONS
             self.icon_paint(p, self._icon_path, rect_icon, self._set_icon_color) 
 
+        elif self._is_active_tab:
+            # DRAW BG BLUE
+            p.setBrush(QColor(self._dark_four))
+            p.drawRoundedRect(rect_blue, 8, 8)
+
+            # BG INSIDE
+            p.setBrush(QColor(self._bg_one))
+            p.drawRoundedRect(rect_inside_active, 8, 8)
+
+            # DRAW ACTIVE
+            icon_path = self._icon_active_menu
+            app_path = os.path.abspath(os.getcwd())
+            icon_path = os.path.normpath(os.path.join(app_path, icon_path))
+            self._set_icon_color = self._icon_color_active
+            self.icon_active(p, icon_path, self.width())
+
+            # DRAW TEXT
+            p.setPen(QColor(self._set_text_active))
+            p.drawText(rect_text, Qt.AlignVCenter, self.text())
+
+            # DRAW ICONS
+            self.icon_paint(p, self._icon_path, rect_icon, self._set_icon_color)
+
         # NORMAL BG
         else:
             if self._is_toggle_active:
@@ -170,14 +195,29 @@ class PyLeftMenuButton(QPushButton):
         self._is_active = is_active
         if not is_active:
             self._set_icon_color = self._icon_color
-        if not is_active:
             self._set_bg_color = self._dark_one
+
+        self.repaint()
+
+    # SET ACTIVE TAB MENU
+    # ///////////////////////////////////////////////////////////////
+    def set_active_tab(self, is_active):
+        self._is_active_tab = is_active
+        if not is_active:
+            self._set_icon_color = self._icon_color
+            self._set_bg_color = self._dark_one
+            
         self.repaint()
 
     # RETURN IF IS ACTIVE MENU
     # ///////////////////////////////////////////////////////////////
     def is_active(self):
         return self._is_active
+
+    # RETURN IF IS ACTIVE TAB MENU
+    # ///////////////////////////////////////////////////////////////
+    def is_active_tab(self):
+        return self._is_active_tab
     
     # SET ACTIVE TOGGLE
     # ///////////////////////////////////////////////////////////////

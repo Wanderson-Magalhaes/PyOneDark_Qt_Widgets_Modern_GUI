@@ -202,11 +202,26 @@ class PyLeftMenu(QWidget):
             else:
                 btn.set_active(False)
 
+    # SELECT ONLY ONE TAB BTN
+    # ///////////////////////////////////////////////////////////////
+    def select_only_one_tab(self, widget: str):
+        for btn in self.findChildren(QPushButton):
+            if btn.objectName() == widget:
+                btn.set_active_tab(True)
+            else:
+                btn.set_active_tab(False)
+
     # DESELECT ALL BTNs
     # ///////////////////////////////////////////////////////////////
     def deselect_all(self):
         for btn in self.findChildren(QPushButton):
             btn.set_active(False)
+
+    # DESELECT ALL TAB BTNs
+    # ///////////////////////////////////////////////////////////////
+    def deselect_all_tab(self):
+        for btn in self.findChildren(QPushButton):
+            btn.set_active_tab(False)
 
     # SETUP APP
     # ///////////////////////////////////////////////////////////////

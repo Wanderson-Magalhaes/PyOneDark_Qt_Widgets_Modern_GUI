@@ -51,7 +51,7 @@ class MainFunctions():
     ):
         self.ui.left_column.menus.pages.setCurrentWidget(menu)
         self.ui.left_column.title_label.setText(title)
-        self.ui.left_column.icon.load(icon_path)
+        self.ui.left_column.icon.set_icon(icon_path)
 
     # RETURN IF LEFT COLUMN IS VISIBLE
     # ///////////////////////////////////////////////////////////////

@@ -115,6 +115,14 @@ class MainWindow(QMainWindow):
         # GET BT CLICKED
         btn = SetupMainWindow.setup_btns(self)
 
+        # Remove Selection If Clicked By "btn_close_left_column"
+        if btn.objectName() != "btn_settings":
+            self.ui.left_menu.deselect_all_tab()
+
+        # Get Title Bar Btn And Reset Active         
+        top_settings = MainFunctions.get_title_bar_btn(self, "btn_top_settings")
+        top_settings.set_active(False)
+
         # LEFT MENU
         # ///////////////////////////////////////////////////////////////
         
@@ -143,44 +151,54 @@ class MainWindow(QMainWindow):
             # Load Page 3 
             MainFunctions.set_page(self, self.ui.load_pages.page_3)
 
+        # Load Information
+        if btn.objectName() == "btn_info":
+            # CHECK IF LEFT COLUMN IS VISIBLE
+            if not MainFunctions.left_column_is_visible(self):
+                self.ui.left_menu.select_only_one_tab(btn.objectName())
+
+                # Show / Hide
+                MainFunctions.toggle_left_column(self)
+                self.ui.left_menu.select_only_one_tab(btn.objectName())
+            else:
+                if btn.objectName() == "btn_close_left_column":
+                    self.ui.left_menu.deselect_all_tab()
+                    # Show / Hide
+                    MainFunctions.toggle_left_column(self)
+                
+                self.ui.left_menu.select_only_one_tab(btn.objectName())
+
             # Change Left Column Menu
-            MainFunctions.set_left_column_menu(
-                self, 
-                menu = self.ui.left_column.menus.menu_2,
-                title = "Add Users",
-                icon_path = Functions.set_svg_icon("icon_settings.svg")
-            )
+            if btn.objectName() != "btn_close_left_column":
+                MainFunctions.set_left_column_menu(
+                    self, 
+                    menu = self.ui.left_column.menus.menu_2,
+                    title = "Add Users",
+                    icon_path = Functions.set_svg_icon("icon_home.svg")
+                )
 
         # Settings Left
         if btn.objectName() == "btn_settings" or btn.objectName() == "btn_close_left_column":
-            # Toogle Active
+            # CHECK IF LEFT COLUMN IS VISIBLE
             if not MainFunctions.left_column_is_visible(self):
-                btn.set_active(True)
-
                 # Show / Hide
                 MainFunctions.toggle_left_column(self)
+                self.ui.left_menu.select_only_one_tab(btn.objectName())
             else:
-                btn.set_active(False)
-
-                # Show / Hide
-                MainFunctions.toggle_left_column(self)
-
-            # Remove Selection If Clicked By "btn_close_left_column"
-            if btn.objectName() != "btn_settings":
-                btn_settings = MainFunctions.get_left_menu_btn(self, "btn_settings")
-                btn_settings.set_active(False)
-
-            # Get Title Bar Btn            
-            top_settings = MainFunctions.get_title_bar_btn(self, "btn_top_settings")
-            top_settings.set_active(False)
+                if btn.objectName() == "btn_close_left_column":
+                    self.ui.left_menu.deselect_all_tab()
+                    # Show / Hide
+                    MainFunctions.toggle_left_column(self)
+                self.ui.left_menu.select_only_one_tab(btn.objectName())
 
             # Change Left Column Menu
-            MainFunctions.set_left_column_menu(
-                self, 
-                menu = self.ui.left_column.menus.menu_1,
-                title = "Settings Left Column",
-                icon_path = Functions.set_svg_icon("icon_settings.svg")
-            )
+            if btn.objectName() != "btn_close_left_column":
+                MainFunctions.set_left_column_menu(
+                    self, 
+                    menu = self.ui.left_column.menus.menu_1,
+                    title = "Settings Left Column",
+                    icon_path = Functions.set_svg_icon("icon_settings.svg")
+                )
         
         # TITLE BAR MENU
         # ///////////////////////////////////////////////////////////////
@@ -199,9 +217,7 @@ class MainWindow(QMainWindow):
 
             # Get Left Menu Btn            
             top_settings = MainFunctions.get_left_menu_btn(self, "btn_settings")
-            top_settings.set_active(False)
-
-            
+            top_settings.set_active_tab(False)            
             
 
         # DEBUG
