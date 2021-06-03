@@ -37,9 +37,10 @@ from gui.uis.windows.main_window import *
 # ///////////////////////////////////////////////////////////////
 from gui.widgets import *
 
-# ADJUST QT FONT DPI FOR HIGHT SCALE
+# ADJUST QT FONT DPI FOR HIGHT SCALE AN 4K MONITOR
 # ///////////////////////////////////////////////////////////////
 os.environ["QT_FONT_DPI"] = "96"
+# IF IS 4K MONITOR ENABLE 'os.environ["QT_SCALE_FACTOR"] = "2"'
 
 # MAIN WINDOW
 # ///////////////////////////////////////////////////////////////
@@ -62,46 +63,6 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         self.hide_grips = True # Show/Hide resize grips
         SetupMainWindow.setup_gui(self)
-
-        # LEFT MENUS / GET SIGNALS WHEN LEFT MENU BTN IS CLICKED / RELEASED
-        # ///////////////////////////////////////////////////////////////
-        # ADD MENUS
-        self.ui.left_menu.add_menus(SetupMainWindow.add_left_menus)
-
-        # SET SIGNALS
-        self.ui.left_menu.clicked.connect(self.btn_clicked)
-        self.ui.left_menu.released.connect(self.btn_released)
-
-        # TITLE BAR / ADD EXTRA BUTTONS
-        # ///////////////////////////////////////////////////////////////
-        # ADD MENUS
-        self.ui.title_bar.add_menus(SetupMainWindow.add_title_bar_menus)
-
-        # SET SIGNALS
-        self.ui.title_bar.clicked.connect(self.btn_clicked)
-        self.ui.title_bar.released.connect(self.btn_released)
-
-        # ADD Title
-        if self.settings["custom_title_bar"]:
-            self.ui.title_bar.set_title(self.settings["app_name"])
-        else:
-            self.ui.title_bar.set_title("Welcome to PyOneDark")
-
-        # LEFT COLUMN SET SIGNALS
-        # ///////////////////////////////////////////////////////////////
-        self.ui.left_column.clicked.connect(self.btn_clicked)
-        self.ui.left_column.released.connect(self.btn_released)
-
-        # SET INITIAL PAGE / SET LEFT AND RIGHT COLUMN MENUS
-        # ///////////////////////////////////////////////////////////////
-        MainFunctions.set_page(self, self.ui.load_pages.page_1)
-        MainFunctions.set_left_column_menu(
-            self,
-            menu = self.ui.left_column.menus.menu_1,
-            title = "Settings Left Column",
-            icon_path = Functions.set_svg_icon("icon_settings.svg")
-        )
-        MainFunctions.set_right_column_menu(self, self.ui.right_column.menu_1)
 
         # SHOW MAIN WINDOW
         # ///////////////////////////////////////////////////////////////
@@ -126,7 +87,7 @@ class MainWindow(QMainWindow):
         # LEFT MENU
         # ///////////////////////////////////////////////////////////////
         
-        # Load Home
+        # HOME BTN
         if btn.objectName() == "btn_home":
             # Select Menu
             self.ui.left_menu.select_only_one(btn.objectName())
@@ -134,7 +95,7 @@ class MainWindow(QMainWindow):
             # Load Page 1
             MainFunctions.set_page(self, self.ui.load_pages.page_1)
 
-        # Load Widgets Page
+        # WIDGETS BTN
         if btn.objectName() == "btn_widgets":
             # Select Menu
             self.ui.left_menu.select_only_one(btn.objectName())
@@ -143,7 +104,7 @@ class MainWindow(QMainWindow):
             MainFunctions.set_page(self, self.ui.load_pages.page_2)
             MainFunctions.set_right_column_menu(self, self.ui.right_column.menu_1)
 
-        # Load Add User
+        # LOAD USER PAGE
         if btn.objectName() == "btn_add_user":
             # Select Menu
             self.ui.left_menu.select_only_one(btn.objectName())
@@ -151,7 +112,7 @@ class MainWindow(QMainWindow):
             # Load Page 3 
             MainFunctions.set_page(self, self.ui.load_pages.page_3)
 
-        # Load Information
+        # BOTTOM INFORMATION
         if btn.objectName() == "btn_info":
             # CHECK IF LEFT COLUMN IS VISIBLE
             if not MainFunctions.left_column_is_visible(self):
@@ -177,7 +138,7 @@ class MainWindow(QMainWindow):
                     icon_path = Functions.set_svg_icon("icon_home.svg")
                 )
 
-        # Settings Left
+        # SETTINGS LEFT
         if btn.objectName() == "btn_settings" or btn.objectName() == "btn_close_left_column":
             # CHECK IF LEFT COLUMN IS VISIBLE
             if not MainFunctions.left_column_is_visible(self):
@@ -202,6 +163,8 @@ class MainWindow(QMainWindow):
         
         # TITLE BAR MENU
         # ///////////////////////////////////////////////////////////////
+        
+        # SETTINGS TITLE BAR
         if btn.objectName() == "btn_top_settings":
             # Toogle Active
             if not MainFunctions.right_column_is_visible(self):
@@ -218,7 +181,6 @@ class MainWindow(QMainWindow):
             # Get Left Menu Btn            
             top_settings = MainFunctions.get_left_menu_btn(self, "btn_settings")
             top_settings.set_active_tab(False)            
-            
 
         # DEBUG
         print(f"Button {btn.objectName()}, clicked!")
@@ -251,7 +213,11 @@ class MainWindow(QMainWindow):
 # ///////////////////////////////////////////////////////////////
 if __name__ == "__main__":
     # APPLICATION
+    # ///////////////////////////////////////////////////////////////
     app = QApplication(sys.argv)
     # app.setWindowIcon(QIcon("icon.ico"))
     window = MainWindow()
+
+    # EXEC APP
+    # ///////////////////////////////////////////////////////////////
     sys.exit(app.exec_())

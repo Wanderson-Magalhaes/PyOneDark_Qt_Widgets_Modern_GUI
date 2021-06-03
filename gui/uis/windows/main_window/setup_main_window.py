@@ -38,6 +38,10 @@ from gui.widgets import *
 # ///////////////////////////////////////////////////////////////
 from . ui_main import *
 
+# MAIN FUNCTIONS 
+# ///////////////////////////////////////////////////////////////
+from . functions_main_window import *
+
 # PY WINDOW
 # ///////////////////////////////////////////////////////////////
 class SetupMainWindow:
@@ -170,6 +174,46 @@ class SetupMainWindow:
             self.top_right_grip = PyGrips(self, "top_right", self.hide_grips)
             self.bottom_left_grip = PyGrips(self, "bottom_left", self.hide_grips)
             self.bottom_right_grip = PyGrips(self, "bottom_right", self.hide_grips)
+
+        # LEFT MENUS / GET SIGNALS WHEN LEFT MENU BTN IS CLICKED / RELEASED
+        # ///////////////////////////////////////////////////////////////
+        # ADD MENUS
+        self.ui.left_menu.add_menus(SetupMainWindow.add_left_menus)
+
+        # SET SIGNALS
+        self.ui.left_menu.clicked.connect(self.btn_clicked)
+        self.ui.left_menu.released.connect(self.btn_released)
+
+        # TITLE BAR / ADD EXTRA BUTTONS
+        # ///////////////////////////////////////////////////////////////
+        # ADD MENUS
+        self.ui.title_bar.add_menus(SetupMainWindow.add_title_bar_menus)
+
+        # SET SIGNALS
+        self.ui.title_bar.clicked.connect(self.btn_clicked)
+        self.ui.title_bar.released.connect(self.btn_released)
+
+        # ADD Title
+        if self.settings["custom_title_bar"]:
+            self.ui.title_bar.set_title(self.settings["app_name"])
+        else:
+            self.ui.title_bar.set_title("Welcome to PyOneDark")
+
+        # LEFT COLUMN SET SIGNALS
+        # ///////////////////////////////////////////////////////////////
+        self.ui.left_column.clicked.connect(self.btn_clicked)
+        self.ui.left_column.released.connect(self.btn_released)
+
+        # SET INITIAL PAGE / SET LEFT AND RIGHT COLUMN MENUS
+        # ///////////////////////////////////////////////////////////////
+        MainFunctions.set_page(self, self.ui.load_pages.page_1)
+        MainFunctions.set_left_column_menu(
+            self,
+            menu = self.ui.left_column.menus.menu_1,
+            title = "Settings Left Column",
+            icon_path = Functions.set_svg_icon("icon_settings.svg")
+        )
+        MainFunctions.set_right_column_menu(self, self.ui.right_column.menu_1)
 
     # RESIZE GRIPS AND CHANGE POSITION
     # Resize or change position when window is resized
