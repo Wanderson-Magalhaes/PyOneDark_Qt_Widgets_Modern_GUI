@@ -18,6 +18,7 @@
 # ///////////////////////////////////////////////////////////////
 from qt_core import *
 
+
 class Ui_MainPages(object):
     def setupUi(self, MainPages):
         if not MainPages.objectName():
@@ -31,17 +32,42 @@ class Ui_MainPages(object):
         self.pages.setObjectName(u"pages")
         self.page_1 = QWidget()
         self.page_1.setObjectName(u"page_1")
-        self.page_1.setStyleSheet(u"background: lightgreen; font-size: 16pt")
+        self.page_1.setStyleSheet(u"font-size: 14pt")
         self.verticalLayout = QVBoxLayout(self.page_1)
+        self.verticalLayout.setSpacing(5)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.label_1 = QLabel(self.page_1)
-        self.label_1.setObjectName(u"label_1")
-        font = QFont()
-        font.setPointSize(16)
-        self.label_1.setFont(font)
-        self.label_1.setAlignment(Qt.AlignCenter)
+        self.verticalLayout.setContentsMargins(5, 5, 5, 5)
+        self.welcome_base = QFrame(self.page_1)
+        self.welcome_base.setObjectName(u"welcome_base")
+        self.welcome_base.setMinimumSize(QSize(300, 150))
+        self.welcome_base.setMaximumSize(QSize(300, 150))
+        self.welcome_base.setFrameShape(QFrame.NoFrame)
+        self.welcome_base.setFrameShadow(QFrame.Raised)
+        self.center_page_layout = QVBoxLayout(self.welcome_base)
+        self.center_page_layout.setSpacing(10)
+        self.center_page_layout.setObjectName(u"center_page_layout")
+        self.center_page_layout.setContentsMargins(0, 0, 0, 0)
+        self.logo = QFrame(self.welcome_base)
+        self.logo.setObjectName(u"logo")
+        self.logo.setMinimumSize(QSize(300, 120))
+        self.logo.setMaximumSize(QSize(300, 120))
+        self.logo.setFrameShape(QFrame.NoFrame)
+        self.logo.setFrameShadow(QFrame.Raised)
+        self.logo_layout = QVBoxLayout(self.logo)
+        self.logo_layout.setSpacing(0)
+        self.logo_layout.setObjectName(u"logo_layout")
+        self.logo_layout.setContentsMargins(0, 0, 0, 0)
 
-        self.verticalLayout.addWidget(self.label_1)
+        self.center_page_layout.addWidget(self.logo)
+
+        self.label = QLabel(self.welcome_base)
+        self.label.setObjectName(u"label")
+        self.label.setAlignment(Qt.AlignCenter)
+
+        self.center_page_layout.addWidget(self.label)
+
+
+        self.verticalLayout.addWidget(self.welcome_base, 0, Qt.AlignHCenter)
 
         self.pages.addWidget(self.page_1)
         self.page_2 = QWidget()
@@ -51,6 +77,8 @@ class Ui_MainPages(object):
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.label_2 = QLabel(self.page_2)
         self.label_2.setObjectName(u"label_2")
+        font = QFont()
+        font.setPointSize(16)
         self.label_2.setFont(font)
         self.label_2.setAlignment(Qt.AlignCenter)
 
@@ -76,7 +104,7 @@ class Ui_MainPages(object):
 
         self.retranslateUi(MainPages)
 
-        self.pages.setCurrentIndex(2)
+        self.pages.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainPages)
@@ -84,7 +112,7 @@ class Ui_MainPages(object):
 
     def retranslateUi(self, MainPages):
         MainPages.setWindowTitle(QCoreApplication.translate("MainPages", u"Form", None))
-        self.label_1.setText(QCoreApplication.translate("MainPages", u"Page 1", None))
+        self.label.setText(QCoreApplication.translate("MainPages", u"Welcome To PyOneDark GUI", None))
         self.label_2.setText(QCoreApplication.translate("MainPages", u"Page 2", None))
         self.label_3.setText(QCoreApplication.translate("MainPages", u"Page 3", None))
     # retranslateUi

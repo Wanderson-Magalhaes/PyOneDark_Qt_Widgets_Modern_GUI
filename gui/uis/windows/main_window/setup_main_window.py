@@ -215,6 +215,11 @@ class SetupMainWindow:
         )
         MainFunctions.set_right_column_menu(self, self.ui.right_column.menu_1)
 
+        # ADD LOGO TO MAIN PAGE
+        # ///////////////////////////////////////////////////////////////
+        self.logo_svg = QSvgWidget(Functions.set_svg_image("logo_home.svg"))
+        self.ui.load_pages.logo_layout.addWidget(self.logo_svg, Qt.AlignCenter, Qt.AlignCenter)
+
     # RESIZE GRIPS AND CHANGE POSITION
     # Resize or change position when window is resized
     # ///////////////////////////////////////////////////////////////
