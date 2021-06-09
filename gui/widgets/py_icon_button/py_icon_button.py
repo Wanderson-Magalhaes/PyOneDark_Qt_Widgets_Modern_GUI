@@ -20,10 +20,11 @@ from qt_core import *
 
 # PY TITLE BUTTON
 # ///////////////////////////////////////////////////////////////
-class PyTitleButton(QPushButton):
+class PyIconButton(QPushButton):
     def __init__(
         self,
-        parent,
+        icon_path = None,
+        parent = None,
         app_parent = None,
         tooltip_text = "",
         btn_id = None,
@@ -37,10 +38,10 @@ class PyTitleButton(QPushButton):
         icon_color_hover = "#dce1ec",
         icon_color_pressed = "#edf0f5",
         icon_color_active = "#f5f6f9",
-        icon_path = "no_icon.svg",
         dark_one = "#1b1e23",
-        context_color = "#568af2",
         text_foreground = "#8a95aa",
+        context_color = "#568af2",
+        top_margin = 40,
         is_active = False
     ):
         super().__init__()
@@ -59,7 +60,7 @@ class PyTitleButton(QPushButton):
         self._icon_color_pressed = icon_color_pressed
         self._icon_color_active = icon_color_active
         self._context_color = context_color
-        self._top_margin = self.height() + 6
+        self._top_margin = top_margin
         self._is_active = is_active
         # Set Parameters
         self._set_bg_color = bg_color
@@ -76,7 +77,6 @@ class PyTitleButton(QPushButton):
             app_parent,
             tooltip_text,
             dark_one,
-            context_color,
             text_foreground
         )
         self._tooltip.hide()
@@ -216,8 +216,8 @@ class PyTitleButton(QPushButton):
 
         # FORMAT POSITION
         # Adjust tooltip position with offset
-        pos_x = (pos.x() - self._tooltip.width()) + self.width() + 5
-        pos_y = pos.y() + self._top_margin
+        pos_x = (pos.x() - (self._tooltip.width() // 2)) + (self.width() // 2)
+        pos_y = pos.y() - self._top_margin
 
         # SET POSITION TO WIDGET
         # Move tooltip position
@@ -235,7 +235,6 @@ class _ToolTip(QLabel):
         padding-right: 10px;
         border-radius: 17px;
         border: 0px solid transparent;
-        border-right: 3px solid {_context_color};
         font: 800 9pt "Segoe UI";
     }}
     """
@@ -244,7 +243,6 @@ class _ToolTip(QLabel):
         parent, 
         tooltip,
         dark_one,
-        context_color,
         text_foreground
     ):
         QLabel.__init__(self)
@@ -252,7 +250,6 @@ class _ToolTip(QLabel):
         # LABEL SETUP
         style = self.style_tooltip.format(
             _dark_one = dark_one,
-            _context_color = context_color,
             _text_foreground = text_foreground
         )
         self.setObjectName(u"label_tooltip")

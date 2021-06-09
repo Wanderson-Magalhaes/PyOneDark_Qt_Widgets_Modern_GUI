@@ -134,8 +134,8 @@ class MainWindow(QMainWindow):
                 MainFunctions.set_left_column_menu(
                     self, 
                     menu = self.ui.left_column.menus.menu_2,
-                    title = "Add Users",
-                    icon_path = Functions.set_svg_icon("icon_home.svg")
+                    title = "Info tab",
+                    icon_path = Functions.set_svg_icon("icon_info.svg")
                 )
 
         # SETTINGS LEFT

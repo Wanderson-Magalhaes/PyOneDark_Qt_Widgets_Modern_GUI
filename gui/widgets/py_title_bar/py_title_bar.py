@@ -16,7 +16,6 @@
 
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
-from PySide6 import QtSvgWidgets
 from qt_core import *
 
 # IMPORT FUNCTIONS

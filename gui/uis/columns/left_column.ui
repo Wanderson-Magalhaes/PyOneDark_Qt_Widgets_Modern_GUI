@@ -30,14 +30,11 @@
     <number>5</number>
    </property>
    <item>
-    <widget class="QStackedWidget" name="pages">
+    <widget class="QStackedWidget" name="menus">
      <property name="currentIndex">
       <number>0</number>
      </property>
      <widget class="QWidget" name="menu_1">
-      <property name="styleSheet">
-       <string notr="true">background: lightgreen; font-size: 16pt</string>
-      </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="spacing">
         <number>5</number>
@@ -160,6 +157,9 @@
            <pointsize>16</pointsize>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">font-size: 16pt</string>
+         </property>
          <property name="text">
           <string>Menu 1 - Left Menu</string>
          </property>
@@ -171,9 +171,6 @@
       </layout>
      </widget>
      <widget class="QWidget" name="menu_2">
-      <property name="styleSheet">
-       <string notr="true">background: lightblue; font-size: 16pt</string>
-      </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <property name="spacing">
         <number>5</number>
@@ -229,6 +226,9 @@
           <font>
            <pointsize>16</pointsize>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font-size: 16pt</string>
          </property>
          <property name="text">
           <string>Menu 2 - Left Menu</string>

@@ -67,7 +67,7 @@ class SetupMainWindow:
         {
             "btn_icon" : "icon_widgets.svg",
             "btn_id" : "btn_widgets",
-            "btn_text" : "Open Widgets",
+            "btn_text" : "Show Custom Widgets",
             "btn_tooltip" : "Show custom widgets",
             "show_top" : True,
             "is_active" : False
@@ -105,7 +105,7 @@ class SetupMainWindow:
             "is_active" : False
         },
         {
-            "btn_icon" : "icon_widgets.svg",
+            "btn_icon" : "icon_info.svg",
             "btn_id" : "btn_info",
             "btn_text" : "Information",
             "btn_tooltip" : "Open informations",
@@ -215,10 +215,290 @@ class SetupMainWindow:
         )
         MainFunctions.set_right_column_menu(self, self.ui.right_column.menu_1)
 
-        # ADD LOGO TO MAIN PAGE
         # ///////////////////////////////////////////////////////////////
+        # EXAMPLE CUSTOM WIDGETS
+        # Here are added the custom widgets to pages and columns that
+        # were created using Qt Designer.
+        # This is just an example and should be deleted when creating
+        # your application.
+        # ///////////////////////////////////////////////////////////////
+
+        # LOAD SETTINGS
+        # ///////////////////////////////////////////////////////////////
+        settings = Settings()
+        self.settings = settings.items
+
+        # LOAD THEME COLOR
+        # ///////////////////////////////////////////////////////////////
+        themes = Themes()
+        self.themes = themes.items
+
+        # LEFT COLUMN
+        # ///////////////////////////////////////////////////////////////
+
+        # BTN 1
+        self.left_btn_1 = PyPushButton(
+            text="Btn 1",
+            radius=8,
+            color=self.themes["app_color"]["text_foreground"],
+            bg_color=self.themes["app_color"]["dark_one"],
+            bg_color_hover=self.themes["app_color"]["dark_three"],
+            bg_color_pressed=self.themes["app_color"]["dark_four"]
+        )
+        self.left_btn_1.setMaximumHeight(40)
+        self.ui.left_column.menus.btn_1_layout.addWidget(self.left_btn_1)
+
+        # BTN 2
+        self.left_btn_2 = PyPushButton(
+            text="Btn With Icon",
+            radius=8,
+            color=self.themes["app_color"]["text_foreground"],
+            bg_color=self.themes["app_color"]["dark_one"],
+            bg_color_hover=self.themes["app_color"]["dark_three"],
+            bg_color_pressed=self.themes["app_color"]["dark_four"]
+        )
+        self.icon = QIcon(Functions.set_svg_icon("icon_settings.svg"))
+        self.left_btn_2.setIcon(self.icon)
+        self.left_btn_2.setMaximumHeight(40)
+        self.ui.left_column.menus.btn_2_layout.addWidget(self.left_btn_2)
+
+        # BTN 3 - Default QPushButton
+        self.left_btn_3 = QPushButton("Default QPushButton")
+        self.left_btn_3.setMaximumHeight(40)
+        self.ui.left_column.menus.btn_3_layout.addWidget(self.left_btn_3)
+
+        # PAGES
+        # ///////////////////////////////////////////////////////////////
+
+        # PAGE 1 - ADD LOGO TO MAIN PAGE
         self.logo_svg = QSvgWidget(Functions.set_svg_image("logo_home.svg"))
         self.ui.load_pages.logo_layout.addWidget(self.logo_svg, Qt.AlignCenter, Qt.AlignCenter)
+
+        # PAGE 2
+        # CIRCULAR PROGRESS 1
+        self.circular_progress_1 = PyCircularProgress(
+            value = 80,
+            progress_color = self.themes["app_color"]["context_color"],
+            text_color = self.themes["app_color"]["text_title"],
+            font_size = 14,
+            bg_color = self.themes["app_color"]["dark_four"]
+        )
+        self.circular_progress_1.setFixedSize(200,200)
+
+        # CIRCULAR PROGRESS 2
+        self.circular_progress_2 = PyCircularProgress(
+            value = 45,
+            progress_width = 4,
+            progress_color = self.themes["app_color"]["context_color"],
+            text_color = self.themes["app_color"]["context_color"],
+            font_size = 14,
+            bg_color = self.themes["app_color"]["bg_three"]
+        )
+        self.circular_progress_2.setFixedSize(160,160)
+
+        # CIRCULAR PROGRESS 3
+        self.circular_progress_3 = PyCircularProgress(
+            value = 75,
+            progress_width = 2,
+            progress_color = self.themes["app_color"]["pink"],
+            text_color = self.themes["app_color"]["white"],
+            font_size = 14,
+            bg_color = self.themes["app_color"]["bg_three"]
+        )
+        self.circular_progress_3.setFixedSize(140,140)
+
+        # PY SLIDER 1
+        self.vertical_slider_1 = PySlider(
+            margin=8,
+            bg_size=10,
+            bg_radius=5,
+            handle_margin=-3,
+            handle_size=16,
+            handle_radius=8,
+            bg_color = self.themes["app_color"]["dark_three"],
+            bg_color_hover = self.themes["app_color"]["dark_four"],
+            handle_color = self.themes["app_color"]["context_color"],
+            handle_color_hover = self.themes["app_color"]["context_hover"],
+            handle_color_pressed = self.themes["app_color"]["context_pressed"]
+        )
+        self.vertical_slider_1.setMinimumHeight(100)
+
+        # PY SLIDER 2
+        self.vertical_slider_2 = PySlider(
+            bg_color = self.themes["app_color"]["dark_three"],
+            bg_color_hover = self.themes["app_color"]["dark_three"],
+            handle_color = self.themes["app_color"]["context_color"],
+            handle_color_hover = self.themes["app_color"]["context_hover"],
+            handle_color_pressed = self.themes["app_color"]["context_pressed"]
+        )
+        self.vertical_slider_2.setMinimumHeight(100)
+
+        # PY SLIDER 3
+        self.vertical_slider_3 = PySlider(
+            margin=8,
+            bg_size=10,
+            bg_radius=5,
+            handle_margin=-3,
+            handle_size=16,
+            handle_radius=8,
+            bg_color = self.themes["app_color"]["dark_three"],
+            bg_color_hover = self.themes["app_color"]["dark_four"],
+            handle_color = self.themes["app_color"]["context_color"],
+            handle_color_hover = self.themes["app_color"]["context_hover"],
+            handle_color_pressed = self.themes["app_color"]["context_pressed"]
+        )
+        self.vertical_slider_3.setOrientation(Qt.Horizontal)
+        self.vertical_slider_3.setMaximumWidth(200)
+
+        # PY SLIDER 4
+        self.vertical_slider_4 = PySlider(
+            bg_color = self.themes["app_color"]["dark_three"],
+            bg_color_hover = self.themes["app_color"]["dark_three"],
+            handle_color = self.themes["app_color"]["context_color"],
+            handle_color_hover = self.themes["app_color"]["context_hover"],
+            handle_color_pressed = self.themes["app_color"]["context_pressed"]
+        )
+        self.vertical_slider_4.setOrientation(Qt.Horizontal)
+        self.vertical_slider_4.setMaximumWidth(200)
+
+        # ICON BUTTON 1
+        self.icon_button_1 = PyIconButton(
+            icon_path = Functions.set_svg_icon("icon_heart.svg"),
+            parent = self,
+            app_parent = self.ui.central_widget,
+            tooltip_text = "Icon button - Heart",
+            width = 40,
+            height = 40,
+            radius = 20,
+            dark_one = self.themes["app_color"]["dark_one"],
+            icon_color = self.themes["app_color"]["icon_color"],
+            icon_color_hover = self.themes["app_color"]["icon_hover"],
+            icon_color_pressed = self.themes["app_color"]["icon_active"],
+            icon_color_active = self.themes["app_color"]["icon_active"],
+            bg_color = self.themes["app_color"]["dark_one"],
+            bg_color_hover = self.themes["app_color"]["dark_three"],
+            bg_color_pressed = self.themes["app_color"]["pink"]
+        )
+
+        # ICON BUTTON 2
+        self.icon_button_2 = PyIconButton(
+            icon_path = Functions.set_svg_icon("icon_add_user.svg"),
+            parent = self,
+            app_parent = self.ui.central_widget,
+            tooltip_text = "BTN with tooltip",
+            width = 40,
+            height = 40,
+            radius = 8,
+            dark_one = self.themes["app_color"]["dark_one"],
+            icon_color = self.themes["app_color"]["icon_color"],
+            icon_color_hover = self.themes["app_color"]["icon_hover"],
+            icon_color_pressed = self.themes["app_color"]["white"],
+            icon_color_active = self.themes["app_color"]["icon_active"],
+            bg_color = self.themes["app_color"]["dark_one"],
+            bg_color_hover = self.themes["app_color"]["dark_three"],
+            bg_color_pressed = self.themes["app_color"]["green"],
+        )
+
+        # ICON BUTTON 3
+        self.icon_button_3 = PyIconButton(
+            icon_path = Functions.set_svg_icon("icon_add_user.svg"),
+            parent = self,
+            app_parent = self.ui.central_widget,
+            tooltip_text = "BTN actived! (is_actived = True)",
+            width = 40,
+            height = 40,
+            radius = 8,
+            dark_one = self.themes["app_color"]["dark_one"],
+            icon_color = self.themes["app_color"]["icon_color"],
+            icon_color_hover = self.themes["app_color"]["icon_hover"],
+            icon_color_pressed = self.themes["app_color"]["white"],
+            icon_color_active = self.themes["app_color"]["icon_active"],
+            bg_color = self.themes["app_color"]["dark_one"],
+            bg_color_hover = self.themes["app_color"]["dark_three"],
+            bg_color_pressed = self.themes["app_color"]["context_color"],
+            is_active = True
+        )
+
+        # PUSH BUTTON 1
+        self.push_button_1 = PyPushButton(
+            text = "Button Without Icon",
+            radius  =8,
+            color = self.themes["app_color"]["text_foreground"],
+            bg_color = self.themes["app_color"]["dark_one"],
+            bg_color_hover = self.themes["app_color"]["dark_three"],
+            bg_color_pressed = self.themes["app_color"]["dark_four"]
+        )
+        self.push_button_1.setMinimumHeight(40)
+
+        # PUSH BUTTON 2
+        self.push_button_2 = PyPushButton(
+            text = "Button With Icon",
+            radius = 8,
+            color = self.themes["app_color"]["text_foreground"],
+            bg_color = self.themes["app_color"]["dark_one"],
+            bg_color_hover = self.themes["app_color"]["dark_three"],
+            bg_color_pressed = self.themes["app_color"]["dark_four"]
+        )
+        self.icon_2 = QIcon(Functions.set_svg_icon("icon_settings.svg"))
+        self.push_button_2.setMinimumHeight(40)
+        self.push_button_2.setIcon(self.icon_2)
+
+        # ADD WIDGETS
+        self.ui.load_pages.row_1_layout.addWidget(self.circular_progress_1)
+        self.ui.load_pages.row_1_layout.addWidget(self.circular_progress_2)
+        self.ui.load_pages.row_1_layout.addWidget(self.circular_progress_3)
+        self.ui.load_pages.row_2_layout.addWidget(self.vertical_slider_1)
+        self.ui.load_pages.row_2_layout.addWidget(self.vertical_slider_2)
+        self.ui.load_pages.row_2_layout.addWidget(self.vertical_slider_3)
+        self.ui.load_pages.row_2_layout.addWidget(self.vertical_slider_4)
+        self.ui.load_pages.row_3_layout.addWidget(self.icon_button_1)
+        self.ui.load_pages.row_3_layout.addWidget(self.icon_button_2)
+        self.ui.load_pages.row_3_layout.addWidget(self.icon_button_3)
+        self.ui.load_pages.row_3_layout.addWidget(self.push_button_1)
+        self.ui.load_pages.row_3_layout.addWidget(self.push_button_2)
+
+        # RIGHT COLUMN
+        # ///////////////////////////////////////////////////////////////
+
+        # BTN 1
+        self.right_btn_1 = PyPushButton(
+            text="Show Menu 2",
+            radius=8,
+            color=self.themes["app_color"]["text_foreground"],
+            bg_color=self.themes["app_color"]["dark_one"],
+            bg_color_hover=self.themes["app_color"]["dark_three"],
+            bg_color_pressed=self.themes["app_color"]["dark_four"]
+        )
+        self.icon_right = QIcon(Functions.set_svg_icon("icon_arrow_right.svg"))
+        self.right_btn_1.setIcon(self.icon_right)
+        self.right_btn_1.setMaximumHeight(40)
+        self.right_btn_1.clicked.connect(lambda: MainFunctions.set_right_column_menu(
+            self,
+            self.ui.right_column.menu_2
+        ))
+        self.ui.right_column.btn_1_layout.addWidget(self.right_btn_1)
+
+        # BTN 2
+        self.right_btn_2 = PyPushButton(
+            text="Show Menu 1",
+            radius=8,
+            color=self.themes["app_color"]["text_foreground"],
+            bg_color=self.themes["app_color"]["dark_one"],
+            bg_color_hover=self.themes["app_color"]["dark_three"],
+            bg_color_pressed=self.themes["app_color"]["dark_four"]
+        )
+        self.icon_left = QIcon(Functions.set_svg_icon("icon_arrow_left.svg"))
+        self.right_btn_2.setIcon(self.icon_left)
+        self.right_btn_2.setMaximumHeight(40)
+        self.right_btn_2.clicked.connect(lambda: MainFunctions.set_right_column_menu(
+            self,
+            self.ui.right_column.menu_1
+        ))
+        self.ui.right_column.btn_2_layout.addWidget(self.right_btn_2)
+
+        # ///////////////////////////////////////////////////////////////
+        # END - EXAMPLE CUSTOM WIDGETS
+        # ///////////////////////////////////////////////////////////////
 
     # RESIZE GRIPS AND CHANGE POSITION
     # Resize or change position when window is resized

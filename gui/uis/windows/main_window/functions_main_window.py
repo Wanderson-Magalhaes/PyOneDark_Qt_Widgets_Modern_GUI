@@ -49,7 +49,7 @@ class MainFunctions():
         title,
         icon_path
     ):
-        self.ui.left_column.menus.pages.setCurrentWidget(menu)
+        self.ui.left_column.menus.menus.setCurrentWidget(menu)
         self.ui.left_column.title_label.setText(title)
         self.ui.left_column.icon.set_icon(icon_path)
 
@@ -74,7 +74,7 @@ class MainFunctions():
     # SET RIGHT COLUMN PAGES
     # ///////////////////////////////////////////////////////////////
     def set_right_column_menu(self, menu):
-        self.ui.right_column.pages.setCurrentWidget(menu)
+        self.ui.right_column.menus.setCurrentWidget(menu)
 
     # GET TITLE BUTTON BY OBJECT NAME
     # ///////////////////////////////////////////////////////////////
