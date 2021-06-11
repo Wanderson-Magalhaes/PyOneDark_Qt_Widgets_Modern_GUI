@@ -21,6 +21,8 @@
         "text_active" : "#dce1ec",
         "white" : "#f5f6f9",
         "pink" : "#ff007f",
-        "green" : "#00ff7f"
+        "green" : "#00ff7f",
+        "red" : "#ff5555",
+        "yellow" : "#f1fa8c"
     }
 }

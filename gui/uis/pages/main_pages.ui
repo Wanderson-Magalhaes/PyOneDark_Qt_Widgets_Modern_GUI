@@ -253,6 +253,12 @@ I will try to always record a new tutorial when adding a new Widget and updating
            <item>
             <layout class="QHBoxLayout" name="row_3_layout"/>
            </item>
+           <item>
+            <layout class="QVBoxLayout" name="row_4_layout"/>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="row_5_layout"/>
+           </item>
           </layout>
          </widget>
         </widget>
@@ -262,9 +268,7 @@ I will try to always record a new tutorial when adding a new Widget and updating
      <widget class="QWidget" name="page_3">
       <property name="styleSheet">
        <string notr="true">QFrame {
-	background: lightgreen;
 	font-size: 16pt;
-	border-radius: 8px;
 }</string>
       </property>
       <layout class="QVBoxLayout" name="page_3_layout">

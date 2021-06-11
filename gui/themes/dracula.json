@@ -1,0 +1,28 @@
+{
+    "theme_name" : "dracula",
+    "app_color" : {
+        "dark_one" : "#282a36",
+        "dark_two" : "#2B2E3B",
+        "dark_three" : "#333645",
+        "dark_four" : "#3C4052",
+        "bg_one" : "#44475a",
+        "bg_two" : "#4D5066",
+        "bg_three" : "#595D75",
+        "icon_color" : "#c3ccdf",
+        "icon_hover" : "#dce1ec",
+        "icon_pressed" : "#ff79c6",
+        "icon_active" : "#f5f6f9",
+        "context_color" : "#ff79c6",
+        "context_hover" : "#FF84D7",
+        "context_pressed" : "#FF90DD",
+        "text_title" : "#dce1ec",
+        "text_foreground" : "#f8f8f2",
+        "text_description" : "#979EC7",
+        "text_active" : "#dce1ec",
+        "white" : "#f5f6f9",
+        "pink" : "#ff79c6",
+        "green" : "#00ff7f",
+        "red" : "#ff5555",
+        "yellow" : "#f1fa8c"
+    }
+}

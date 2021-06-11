@@ -16,7 +16,10 @@
 
 # IMPORT PACKAGES AND MODULES
 # ///////////////////////////////////////////////////////////////
+from gui.widgets.py_table_widget.py_table_widget import PyTableWidget
+from . functions_main_window import *
 import sys
+import os
 
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
@@ -443,6 +446,68 @@ class SetupMainWindow:
         self.push_button_2.setMinimumHeight(40)
         self.push_button_2.setIcon(self.icon_2)
 
+        # PY LINE EDIT
+        self.line_edit = PyLineEdit(
+            text = "",
+            place_holder_text = "Place holder text",
+            radius = 8,
+            border_size = 2,
+            color = self.themes["app_color"]["text_foreground"],
+            selection_color = self.themes["app_color"]["white"],
+            bg_color = self.themes["app_color"]["dark_one"],
+            bg_color_active = self.themes["app_color"]["dark_three"],
+            context_color = self.themes["app_color"]["context_color"]
+        )
+        self.line_edit.setMinimumHeight(30)
+
+        # TABLE WIDGETS
+        self.table_widget = PyTableWidget(
+            radius = 8,
+            color = self.themes["app_color"]["text_foreground"],
+            selection_color = self.themes["app_color"]["context_color"],
+            bg_color = self.themes["app_color"]["bg_two"],
+            header_horizontal_color = self.themes["app_color"]["dark_two"],
+            header_vertical_color = self.themes["app_color"]["bg_three"],
+            bottom_line_color = self.themes["app_color"]["bg_three"],
+            grid_line_color = self.themes["app_color"]["bg_one"],
+            scroll_bar_bg_color = self.themes["app_color"]["bg_one"],
+            scroll_bar_btn_color = self.themes["app_color"]["dark_four"],
+            context_color = self.themes["app_color"]["context_color"]
+        )
+        self.table_widget.setColumnCount(3)
+        self.table_widget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.table_widget.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.table_widget.setSelectionBehavior(QAbstractItemView.SelectRows)
+
+        # Columns / Header
+        self.column_1 = QTableWidgetItem()
+        self.column_1.setTextAlignment(Qt.AlignCenter)
+        self.column_1.setText("NAME")
+
+        self.column_2 = QTableWidgetItem()
+        self.column_2.setTextAlignment(Qt.AlignCenter)
+        self.column_2.setText("NICK")
+
+        self.column_3 = QTableWidgetItem()
+        self.column_3.setTextAlignment(Qt.AlignCenter)
+        self.column_3.setText("PASS")
+
+        # Set column
+        self.table_widget.setHorizontalHeaderItem(0, self.column_1)
+        self.table_widget.setHorizontalHeaderItem(1, self.column_2)
+        self.table_widget.setHorizontalHeaderItem(2, self.column_3)
+
+        for x in range(10):
+            row_number = self.table_widget.rowCount()
+            self.table_widget.insertRow(row_number) # Insert row
+            self.table_widget.setItem(row_number, 0, QTableWidgetItem(str("Wanderson"))) # Add name
+            self.table_widget.setItem(row_number, 1, QTableWidgetItem(str("vfx_on_fire_" + str(x)))) # Add nick
+            self.pass_text = QTableWidgetItem()
+            self.pass_text.setTextAlignment(Qt.AlignCenter)
+            self.pass_text.setText("12345" + str(x))
+            self.table_widget.setItem(row_number, 2, self.pass_text) # Add pass
+            self.table_widget.setRowHeight(row_number, 22)
+
         # ADD WIDGETS
         self.ui.load_pages.row_1_layout.addWidget(self.circular_progress_1)
         self.ui.load_pages.row_1_layout.addWidget(self.circular_progress_2)
@@ -456,6 +521,8 @@ class SetupMainWindow:
         self.ui.load_pages.row_3_layout.addWidget(self.icon_button_3)
         self.ui.load_pages.row_3_layout.addWidget(self.push_button_1)
         self.ui.load_pages.row_3_layout.addWidget(self.push_button_2)
+        self.ui.load_pages.row_4_layout.addWidget(self.line_edit)
+        self.ui.load_pages.row_5_layout.addWidget(self.table_widget)
 
         # RIGHT COLUMN
         # ///////////////////////////////////////////////////////////////

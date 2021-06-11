@@ -17,7 +17,6 @@
 # IMPORT PACKAGES AND MODULES
 # ///////////////////////////////////////////////////////////////
 from gui.core.functions import Functions
-from gui.widgets.py_credits_bar.py_credits import PyCredits
 
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
@@ -46,6 +45,10 @@ from gui.uis.pages.ui_main_pages import Ui_MainPages
 # RIGHT COLUMN
 # ///////////////////////////////////////////////////////////////
 from gui.uis.columns.ui_right_column import Ui_RightColumn
+
+# CREDITS
+# ///////////////////////////////////////////////////////////////
+from gui.widgets.py_credits_bar.py_credits import PyCredits
 
 # PY WINDOW
 # ///////////////////////////////////////////////////////////////
@@ -164,6 +167,7 @@ class UI_MainWindow(object):
             btn_color_pressed = self.themes['app_color']['bg_one'],
             icon_color = self.themes['app_color']['icon_color'],
             icon_color_hover = self.themes['app_color']['icon_hover'],
+            context_color = self.themes['app_color']['context_color'],
             icon_color_pressed = self.themes['app_color']['icon_pressed'],
             icon_close_path = Functions.set_svg_icon("icon_close.svg")
         )

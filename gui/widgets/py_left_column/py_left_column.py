@@ -51,6 +51,7 @@ class PyLeftColumn(QWidget):
         icon_color,
         icon_color_hover,
         icon_color_pressed,
+        context_color,
         icon_close_path,
         radius = 8
     ):
@@ -71,6 +72,7 @@ class PyLeftColumn(QWidget):
         self._icon_color = icon_color
         self._icon_color_hover = icon_color_hover
         self._icon_color_pressed = icon_color_pressed
+        self._context_color = context_color
         self._icon_close_path = icon_close_path
         self._radius = radius
 
@@ -165,7 +167,7 @@ class PyLeftColumn(QWidget):
             icon_color_hover = self._icon_color_hover,
             icon_color_pressed = self._icon_color_pressed,
             icon_color_active = self._icon_color_pressed,
-            context_color = self._icon_color_pressed,
+            context_color = self._context_color,
             text_foreground = self._text_title_color,
             icon_path = self._icon_close_path,
             radius = 6,

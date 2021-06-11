@@ -124,6 +124,16 @@ class Ui_MainPages(object):
 
         self.verticalLayout.addLayout(self.row_3_layout)
 
+        self.row_4_layout = QVBoxLayout()
+        self.row_4_layout.setObjectName(u"row_4_layout")
+
+        self.verticalLayout.addLayout(self.row_4_layout)
+
+        self.row_5_layout = QVBoxLayout()
+        self.row_5_layout.setObjectName(u"row_5_layout")
+
+        self.verticalLayout.addLayout(self.row_5_layout)
+
         self.scroll_area.setWidget(self.contents)
 
         self.page_2_layout.addWidget(self.scroll_area)
@@ -132,9 +142,7 @@ class Ui_MainPages(object):
         self.page_3 = QWidget()
         self.page_3.setObjectName(u"page_3")
         self.page_3.setStyleSheet(u"QFrame {\n"
-"	background: lightgreen;\n"
 "	font-size: 16pt;\n"
-"	border-radius: 8px;\n"
 "}")
         self.page_3_layout = QVBoxLayout(self.page_3)
         self.page_3_layout.setObjectName(u"page_3_layout")
