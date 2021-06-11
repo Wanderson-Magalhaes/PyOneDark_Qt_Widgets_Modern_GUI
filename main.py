@@ -215,7 +215,7 @@ if __name__ == "__main__":
     # APPLICATION
     # ///////////////////////////////////////////////////////////////
     app = QApplication(sys.argv)
-    # app.setWindowIcon(QIcon("icon.ico"))
+    app.setWindowIcon(QIcon("icon.ico"))
     window = MainWindow()
 
     # EXEC APP

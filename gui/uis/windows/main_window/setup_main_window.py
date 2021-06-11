@@ -460,6 +460,14 @@ class SetupMainWindow:
         )
         self.line_edit.setMinimumHeight(30)
 
+        # TOGGLE BUTTON
+        self.toggle_button = PyToggle(
+            width = 50,
+            bg_color = self.themes["app_color"]["dark_two"],
+            circle_color = self.themes["app_color"]["icon_color"],
+            active_color = self.themes["app_color"]["context_color"]
+        )
+
         # TABLE WIDGETS
         self.table_widget = PyTableWidget(
             radius = 8,
@@ -521,6 +529,7 @@ class SetupMainWindow:
         self.ui.load_pages.row_3_layout.addWidget(self.icon_button_3)
         self.ui.load_pages.row_3_layout.addWidget(self.push_button_1)
         self.ui.load_pages.row_3_layout.addWidget(self.push_button_2)
+        self.ui.load_pages.row_3_layout.addWidget(self.toggle_button)
         self.ui.load_pages.row_4_layout.addWidget(self.line_edit)
         self.ui.load_pages.row_5_layout.addWidget(self.table_widget)
 
