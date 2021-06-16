@@ -102,7 +102,6 @@ class MainWindow(QMainWindow):
 
             # Load Page 2
             MainFunctions.set_page(self, self.ui.load_pages.page_2)
-            MainFunctions.set_right_column_menu(self, self.ui.right_column.menu_1)
 
         # LOAD USER PAGE
         if btn.objectName() == "btn_add_user":

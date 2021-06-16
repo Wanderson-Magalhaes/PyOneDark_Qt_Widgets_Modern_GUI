@@ -224,6 +224,16 @@ class SetupMainWindow:
         # were created using Qt Designer.
         # This is just an example and should be deleted when creating
         # your application.
+        #
+        # OBJECTS FOR LOAD PAGES, LEFT AND RIGHT COLUMNS
+        # You can access objects inside Qt Designer projects using
+        # the objects below:
+        #
+        # <OBJECTS>
+        # LEFT COLUMN: self.ui.left_column.menus
+        # RIGHT COLUMN: self.ui.right_column
+        # LOAD PAGES: self.ui.load_pages
+        # </OBJECTS>
         # ///////////////////////////////////////////////////////////////
 
         # LOAD SETTINGS
